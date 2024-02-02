@@ -5,14 +5,27 @@ import { RiLeafLine } from "react-icons/ri";
 
 export default function Landing() {
   if (typeof document !== "undefined") {
-    const allHeadings = document.querySelectorAll(".statistics__heading");
+    const allHeadings = Array.from(
+      document.querySelectorAll(".statistics__heading")
+    );
 
-    allHeadings.forEach((heading, i) => {
-      heading.classList.add("statistics__heading--active");
+    let i = 0;
+
+    const loop = () => {
+      if (i >= allHeadings.length) {
+        i = 0; // Reset i if it exceeds the length of allHeadings
+      }
+      allHeadings[i]?.classList.add("statistics__heading--active");
+      allHeadings[i + 6]?.classList.add("statistics__heading--active");
       setTimeout(() => {
-        heading.classList.remove("statistics__heading--active");
-      }, 1000);
-    });
+        allHeadings[i]?.classList.remove("statistics__heading--active");
+        allHeadings[i + 6]?.classList.remove("statistics__heading--active");
+        i++;
+        loop(); // Call loop recursively for the next iteration
+      }, 2000); // Use a fixed delay for the loop
+    };
+
+    loop(); // Start the loop
   }
 
   return (

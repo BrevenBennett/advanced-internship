@@ -1,9 +1,12 @@
+import { useEffect, useState } from "react";
 import { AiFillAudio, AiFillBulb, AiFillFileText } from "react-icons/ai";
 import { BiCrown } from "react-icons/bi";
 import { BsStarFill, BsStarHalf } from "react-icons/bs";
 import { RiLeafLine } from "react-icons/ri";
 
 export default function Landing() {
+ 
+
   if (typeof document !== "undefined") {
     const allHeadings = Array.from(
       document.querySelectorAll(".statistics__heading")
@@ -12,22 +15,29 @@ export default function Landing() {
     let i = 0;
 
     const loop = () => {
-      if (i >= allHeadings.length) {
-        i = 0; // Reset i if it exceeds the length of allHeadings
-      }
-      allHeadings[i]?.classList.add("statistics__heading--active");
-      allHeadings[i + 6]?.classList.add("statistics__heading--active");
+      // Add class to the current heading
+      allHeadings[i].classList.add("statistics__heading--active");
+
+      // Calculate the index of the seventh heading in a circular manner
+      const seventhIndex = (i + 6) % allHeadings.length;
+      // Add class to the seventh heading
+      allHeadings[seventhIndex].classList.add("statistics__heading--active");
+
       setTimeout(() => {
-        allHeadings[i]?.classList.remove("statistics__heading--active");
-        allHeadings[i + 6]?.classList.remove("statistics__heading--active");
-        i++;
+        // Remove class from the current heading
+        allHeadings[i].classList.remove("statistics__heading--active");
+        // Remove class from the seventh heading
+        allHeadings[seventhIndex].classList.remove(
+          "statistics__heading--active"
+        );
+
+        i = (i + 1) % allHeadings.length; // Increment i in a circular manner
         loop(); // Call loop recursively for the next iteration
-      }, 2000); // Use a fixed delay for the loop
+      }, 1500); // Use a fixed delay for the loop
     };
 
     loop(); // Start the loop
   }
-
   return (
     <>
       <nav className="nav">
@@ -107,18 +117,18 @@ export default function Landing() {
             </div>
             <div className="statistics__wrapper">
               <div className="statistics__content--header">
-                <div className="statistics__heading">
+                <div className="statistics__heading" suppressHydrationWarning={true}>
                   Enhance your knowledge
                 </div>
-                <div className="statistics__heading">
+                <div className="statistics__heading" suppressHydrationWarning={true}>
                   Achieve greater success
                 </div>
-                <div className="statistics__heading">Improve your health</div>
-                <div className="statistics__heading">
+                <div className="statistics__heading" suppressHydrationWarning={true}>Improve your health</div>
+                <div className="statistics__heading" suppressHydrationWarning={true}>
                   Develop better parenting skills
                 </div>
-                <div className="statistics__heading">Increase happiness</div>
-                <div className="statistics__heading">
+                <div className="statistics__heading" suppressHydrationWarning={true}>Increase happiness</div>
+                <div className="statistics__heading" suppressHydrationWarning={true}>
                   Be the best version of yourself!
                 </div>
               </div>
@@ -169,16 +179,16 @@ export default function Landing() {
                 </div>
               </div>
               <div className="statistics__content--header statistics__content--header-second">
-                <div className="statistics__heading">Expand your learning</div>
-                <div className="statistics__heading">Accomplish your goals</div>
-                <div className="statistics__heading">
+                <div className="statistics__heading" suppressHydrationWarning={true}>Expand your learning</div>
+                <div className="statistics__heading" suppressHydrationWarning={true}>Accomplish your goals</div>
+                <div className="statistics__heading" suppressHydrationWarning={true}>
                   Strengthen your vitality
                 </div>
-                <div className="statistics__heading">
+                <div className="statistics__heading" suppressHydrationWarning={true}>
                   Become a better caregiver
                 </div>
-                <div className="statistics__heading">Improve your mood</div>
-                <div className="statistics__heading">
+                <div className="statistics__heading" suppressHydrationWarning={true}>Improve your mood</div>
+                <div className="statistics__heading" suppressHydrationWarning={true}>
                   Maximize your abilities
                 </div>
               </div>

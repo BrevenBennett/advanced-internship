@@ -445,6 +445,195 @@ button:disabled {
   font-weight: 500;
 }
 
+/* 
+
+MODAL
+
+*/
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  height: 65%;
+  padding: 32px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: white;
+  outline: none;
+  position: relative;
+}
+
+.modal__wrapper--signup {
+  height: 50%;
+}
+
+.modal__wrapper--password {
+  height: 30%;
+}
+
+.modal__close {
+  font-size: 28px;
+  cursor: pointer;
+  position: absolute;
+  top: 2%;
+  left: 90%;
+}
+
+.modal__close:hover {
+  color: #6b757b;
+}
+
+.modal__title {
+  margin-bottom: 24px;
+}
+
+.modal__error {
+  color: #e61f1f;
+  position: absolute;
+  top: 50%;
+  font-size: 16px;
+}
+
+.modal__error--password {
+  top: 23%;
+}
+
+.modal__error--login {
+  top: 40%;
+}
+
+.break__wrapper {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+  width: 100%;
+}
+
+.line {
+  width: 80%;
+  border-top: 1px solid #c4c4c4;
+}
+
+.or {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0 16px;
+}
+
+.modal__input {
+  width: 100%;
+  height: 40px;
+  padding: 12px;
+  border: 2px solid lightgray;
+  border-radius: 5px;
+}
+
+.modal__input:focus {
+  outline-color: #2bd97c;
+}
+
+.email__input {
+  margin-bottom: 12px;
+}
+
+.modal__button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.modal__button--icon {
+  position: absolute;
+  left: 1.5px;
+  font-size: 36px;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.google {
+  background-color: #fff;
+}
+
+.guest__button {
+  color: white;
+  background-color: #3a579d;
+}
+
+.guest__button:hover {
+  background-color: #25396b;
+}
+
+.google__button {
+  background-color: #4285f4;
+  color: #fff;
+}
+
+.google__button:hover {
+  background-color: #3367d6;
+}
+
+.login__button {
+  margin: 12px 0 24px 0;
+  background-color: #2bd97c;
+}
+
+.login__button:hover {
+  background-color: #20ba68;
+}
+
+.modal__link {
+  color: #116be9;
+  cursor: pointer;
+  font-weight: 300;
+}
+
+.modal__link:hover {
+  color: #124a98;
+}
+
+.modal__link--password {
+  font-size: 14px;
+}
+
+.modal__link--account {
+  font-size: 16px;
+  background-color: #f1f6f4;
+  margin-top: 8px;
+  padding: 12px;
+  width: 100%;
+  border-radius: 0 0 10px 10px;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+}
+
+.modal__link--account:hover {
+  background-color: #e1e9e8;
+}
+
+/* 
+
+FOR YOU
+
+*/
+
+
+
 @media (max-width: 768px) {
   .landing__content {
     display: flex;

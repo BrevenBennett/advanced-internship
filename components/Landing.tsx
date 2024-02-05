@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
+import { openLoginModal } from "@/redux/modalSlice";
 import { AiFillAudio, AiFillBulb, AiFillFileText } from "react-icons/ai";
 import { BiCrown } from "react-icons/bi";
 import { BsStarFill, BsStarHalf } from "react-icons/bs";
 import { RiLeafLine } from "react-icons/ri";
+import { useDispatch } from "react-redux";
+import LoginModal from "./modals/LoginModal"
+import SignupModal from "./modals/SignupModal";
+import PasswordModal from "./modals/PasswordModal";
 
 export default function Landing() {
- 
+  const dispatch = useDispatch()
 
   if (typeof document !== "undefined") {
     const allHeadings = Array.from(
@@ -38,6 +42,7 @@ export default function Landing() {
 
     loop(); // Start the loop
   }
+
   return (
     <>
       <nav className="nav">
@@ -46,7 +51,7 @@ export default function Landing() {
             <img className="nav__img" src="/assets/logo.png" alt="logo" />
           </figure>
           <ul className="nav__list--wrapper">
-            <li className="nav__list nav__list--login">Login</li>
+            <li onClick={() => dispatch(openLoginModal())} className="nav__list nav__list--login">Login</li>
             <li className="nav__list nav__list--mobile">About</li>
             <li className="nav__list nav__list--mobile">Contact</li>
             <li className="nav__list nav__list--mobile">Help</li>
@@ -70,7 +75,7 @@ export default function Landing() {
                   <br className="remove--tablet" />
                   and even people who don't like to read.
                 </div>
-                <button className="btn home__cta--btn">Login</button>
+                <button onClick={() => dispatch(openLoginModal())} className="btn home__cta--btn">Login</button>
               </div>
               <figure className="landing__image--mask">
                 <img src="/assets/landing.png" alt="landing" />
@@ -117,18 +122,40 @@ export default function Landing() {
             </div>
             <div className="statistics__wrapper">
               <div className="statistics__content--header">
-                <div className="statistics__heading" suppressHydrationWarning={true}>
+                <div
+                  className="statistics__heading"
+                  suppressHydrationWarning={true}
+                >
                   Enhance your knowledge
                 </div>
-                <div className="statistics__heading" suppressHydrationWarning={true}>
+                <div
+                  className="statistics__heading"
+                  suppressHydrationWarning={true}
+                >
                   Achieve greater success
                 </div>
-                <div className="statistics__heading" suppressHydrationWarning={true}>Improve your health</div>
-                <div className="statistics__heading" suppressHydrationWarning={true}>
+                <div
+                  className="statistics__heading"
+                  suppressHydrationWarning={true}
+                >
+                  Improve your health
+                </div>
+                <div
+                  className="statistics__heading"
+                  suppressHydrationWarning={true}
+                >
                   Develop better parenting skills
                 </div>
-                <div className="statistics__heading" suppressHydrationWarning={true}>Increase happiness</div>
-                <div className="statistics__heading" suppressHydrationWarning={true}>
+                <div
+                  className="statistics__heading"
+                  suppressHydrationWarning={true}
+                >
+                  Increase happiness
+                </div>
+                <div
+                  className="statistics__heading"
+                  suppressHydrationWarning={true}
+                >
                   Be the best version of yourself!
                 </div>
               </div>
@@ -179,16 +206,40 @@ export default function Landing() {
                 </div>
               </div>
               <div className="statistics__content--header statistics__content--header-second">
-                <div className="statistics__heading" suppressHydrationWarning={true}>Expand your learning</div>
-                <div className="statistics__heading" suppressHydrationWarning={true}>Accomplish your goals</div>
-                <div className="statistics__heading" suppressHydrationWarning={true}>
+                <div
+                  className="statistics__heading"
+                  suppressHydrationWarning={true}
+                >
+                  Expand your learning
+                </div>
+                <div
+                  className="statistics__heading"
+                  suppressHydrationWarning={true}
+                >
+                  Accomplish your goals
+                </div>
+                <div
+                  className="statistics__heading"
+                  suppressHydrationWarning={true}
+                >
                   Strengthen your vitality
                 </div>
-                <div className="statistics__heading" suppressHydrationWarning={true}>
+                <div
+                  className="statistics__heading"
+                  suppressHydrationWarning={true}
+                >
                   Become a better caregiver
                 </div>
-                <div className="statistics__heading" suppressHydrationWarning={true}>Improve your mood</div>
-                <div className="statistics__heading" suppressHydrationWarning={true}>
+                <div
+                  className="statistics__heading"
+                  suppressHydrationWarning={true}
+                >
+                  Improve your mood
+                </div>
+                <div
+                  className="statistics__heading"
+                  suppressHydrationWarning={true}
+                >
                   Maximize your abilities
                 </div>
               </div>
@@ -224,7 +275,7 @@ export default function Landing() {
                 </div>
                 <div className="review__body">
                   I love this app! It provides
-                  <b>concise and accurate summaries</b> of books in a way that
+                  <b> concise and accurate summaries</b> of books in a way that
                   is easy to understand. It's also very user-friendly and
                   intuitive.
                 </div>
@@ -239,7 +290,7 @@ export default function Landing() {
                 <div className="review__body">
                   This app is a great way to get the main takeaways from a book
                   without having to read the entire thing.
-                  <b>The summaries are well-written and informative.</b>
+                  <b> The summaries are well-written and informative. </b>
                   Definitely worth downloading.
                 </div>
               </div>
@@ -252,14 +303,14 @@ export default function Landing() {
                 </div>
                 <div className="review__body">
                   If you're a busy person who
-                  <b>loves reading but doesn't have the time</b> to read every
+                  <b> loves reading but doesn't have the time</b> to read every
                   book in full, this app is for you! The summaries are thorough
                   and provide a great overview of the book's content.
                 </div>
               </div>
             </div>
             <div className="reviews__btn--wrapper">
-              <button className="btn home__cta--btn">Login</button>
+              <button onClick={() => dispatch(openLoginModal())} className="btn home__cta--btn">Login</button>
             </div>
           </div>
         </div>
@@ -389,6 +440,9 @@ export default function Landing() {
           </div>
         </div>
       </section>
+      <LoginModal />
+      <SignupModal />
+      <PasswordModal />
     </>
   );
 }

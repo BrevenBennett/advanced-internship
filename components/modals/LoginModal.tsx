@@ -1,11 +1,12 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 import { Modal } from "@mui/material";
+import { RootState } from "../../redux/store"; 
 import {
   closeLoginModal,
   openPasswordModal,
   openSignupModal,
-} from "@/redux/modalSlice";
+} from "../../redux/modalSlice";
 
 import { FcGoogle } from "react-icons/fc";
 import { IoPerson } from "react-icons/io5";
@@ -15,7 +16,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
-import { auth } from "@/firebase";
+import { auth } from "../../firebase";
 import { useState } from "react";
 import { useRouter } from "next/router";
 

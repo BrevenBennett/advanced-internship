@@ -1,6 +1,7 @@
-import { auth } from "@/firebase";
-import { closePasswordModal, openLoginModal } from "@/redux/modalSlice";
-import { RootState } from "@/redux/store";
+import React from "react";
+import { auth } from "../../firebase";
+import { closePasswordModal, openLoginModal } from "../../redux/modalSlice";
+import { RootState } from "../../redux/store";
 import { Modal } from "@mui/material";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";

@@ -1,4 +1,5 @@
-import { openLoginModal } from "@/redux/modalSlice";
+import React from "react";
+import { openLoginModal } from "../redux/modalSlice";
 import { AiFillAudio, AiFillBulb, AiFillFileText } from "react-icons/ai";
 import { BiCrown } from "react-icons/bi";
 import { BsStarFill, BsStarHalf } from "react-icons/bs";

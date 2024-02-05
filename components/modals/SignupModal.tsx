@@ -1,7 +1,8 @@
+import React from "react";
 import { Modal } from "@mui/material";
-import { RootState } from "@/redux/store";
+import { RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { closeSignupModal, openLoginModal } from "@/redux/modalSlice";
+import { closeSignupModal, openLoginModal } from "../../redux/modalSlice";
 import { IoMdClose } from "react-icons/io";
 import { FcGoogle } from "react-icons/fc";
 import {
@@ -10,9 +11,9 @@ import {
   onAuthStateChanged,
   signInWithPopup,
 } from "firebase/auth";
-import { auth } from "@/firebase";
+import { auth } from "../../firebase";
 import { useEffect, useState } from "react";
-import { setUser } from "@/redux/userSlice";
+import { setUser } from "../../redux/userSlice";
 import { useRouter } from "next/router";
 
 export default function SignupModal() {

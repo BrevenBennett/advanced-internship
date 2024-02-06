@@ -13,8 +13,8 @@ export default function Sidebar() {
       </figure>
       <div className="sidebar__wrapper">
         <div className="sidebar__top">
-          <SidebarLink Icon={TiHomeOutline} text={"For you"} className="" link="/for-you" />
-          <SidebarLink Icon={CiBookmark} text={"My Library"} className="" link="/library" />
+          <SidebarLink Icon={TiHomeOutline} text={"For you"} className="" link={"/for-you"} />
+          <SidebarLink Icon={CiBookmark} text={"My Library"} className="" link={"/library"} />
           <SidebarLink
             Icon={BsPen}
             text={"Highlights"}
@@ -52,7 +52,7 @@ function SidebarLink({
   text: string;
   Icon: any;
   className: string;
-  link: string;
+  link?: string;
 }) {
   return (
     <>

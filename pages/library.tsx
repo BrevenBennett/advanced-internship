@@ -10,6 +10,7 @@ export default function Library() {
 
   return (
     <>
+    <Sidebar />
       {/* <Sidebar />
       <div className="wrapper">
         <SearchBar />

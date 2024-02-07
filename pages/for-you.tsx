@@ -16,6 +16,7 @@ export default function ForYouPage() {
         "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=selected"
       );
       setSelectedBook(data);
+      console.log(data)
     } catch (error) {
       console.error("Couldn't load", error);
     }
@@ -65,7 +66,7 @@ export default function ForYouPage() {
                   </div>
                   <div className="selected__book--line"></div>
                   <div className="selected__book--content">
-                    <figure className="book__image--wrapper">
+                    <figure className="book__image--wrapper book__image--selected">
                       <img
                         src={book.imageLink}
                         alt=""

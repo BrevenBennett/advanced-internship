@@ -13,8 +13,18 @@ export default function Sidebar() {
       </figure>
       <div className="sidebar__wrapper">
         <div className="sidebar__top">
-          <SidebarLink Icon={TiHomeOutline} text={"For you"} className="" link={"/for-you"} />
-          <SidebarLink Icon={CiBookmark} text={"My Library"} className="" link={"/library"} />
+          <SidebarLink
+            Icon={TiHomeOutline}
+            text={"For you"}
+            className=""
+            link={"/for-you"}
+          />
+          <SidebarLink
+            Icon={CiBookmark}
+            text={"My Library"}
+            className=""
+            link={"/library"}
+          />
           <SidebarLink
             Icon={BsPen}
             text={"Highlights"}
@@ -29,14 +39,19 @@ export default function Sidebar() {
           />
         </div>
         <div className="sidebar__bottom">
-          <SidebarLink Icon={CiSettings} text={"Settings"} className="" link="/settings" />
+          <SidebarLink
+            Icon={CiSettings}
+            text={"Settings"}
+            className=""
+            link="/settings"
+          />
           <SidebarLink
             Icon={IoIosHelpCircleOutline}
             text={"Help & Support"}
             className={"sidebar__link--not-allowed"}
             link=""
           />
-          <SidebarLink Icon={LuLogOut} text={"Logout"} className="" link="" />
+          <SidebarLink Icon={LuLogOut} text={"Logout"} className="" link="/" />
         </div>
       </div>
     </div>

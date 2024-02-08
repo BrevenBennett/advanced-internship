@@ -1,13 +1,11 @@
 import SearchBar from "@/components/SearchBar";
 import Sidebar from "@/components/Sidebar";
 import React, { useEffect, useState } from "react";
-import { FaRegStar, FaRegClock } from "react-icons/fa";
+import { FaRegStar, FaRegClock, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { HiOutlineMicrophone } from "react-icons/hi2";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { SlBookOpen } from "react-icons/sl";
-import { CiBookmark } from "react-icons/ci";
 import axios from "axios";
-import { useParams } from "next/navigation";
 
 export function getServerSideProps(context: any) {
   const id = context.query.id;
@@ -21,6 +19,8 @@ export function getServerSideProps(context: any) {
 
 export default function Book({ id }: { id: string }) {
   const [bookData, setBookData] = useState<any>([]);
+  const [libraryText, setLibraryText] = useState("Add title to My Library");
+  const [clicked, setClicked] = useState(false);
 
   async function fetchBookData() {
     try {
@@ -37,6 +37,16 @@ export default function Book({ id }: { id: string }) {
     fetchBookData();
   }, []);
 
+  function addTitleToLibrary() {
+    if (libraryText === "Add title to My Library") {
+      setLibraryText("Saved in My Library");
+      setClicked(false);
+    } else {
+      setLibraryText("Add title to My Library");
+      setClicked(true);
+    }
+  }
+
   return (
     <>
       <Sidebar />
@@ -46,7 +56,11 @@ export default function Book({ id }: { id: string }) {
           <div className="row">
             <div className="id__wrapper">
               <div className="id__book">
-                <div className="id-book__title">{bookData.subscriptionRequired ? bookData.title + " (Premium)" : bookData.title}</div>
+                <div className="id-book__title">
+                  {bookData.subscriptionRequired
+                    ? bookData.title + " (Premium)"
+                    : bookData.title}
+                </div>
                 <div className="id-book__author">{bookData.author}</div>
                 <div className="id-book__subtitle">{bookData.subTitle}</div>
                 <div className="id-book__wrapper">
@@ -89,9 +103,13 @@ export default function Book({ id }: { id: string }) {
                     </button>
                   </div>
                 </div>
-                <div className="id__book--bookmark">
-                  <CiBookmark className="bookmark--icon" />
-                  <div className="bookmark__text">Add title to My Library</div>
+                <div onClick={addTitleToLibrary} className="id__book--bookmark">
+                  {clicked ? (
+                    <FaRegBookmark className="bookmark--icon" />
+                  ) : (
+                    <FaBookmark className="bookmark--icon" />
+                  )}
+                  <div className="bookmark__text">{libraryText}</div>
                 </div>
                 <div className="id__book--secondary-title">
                   What's it about?

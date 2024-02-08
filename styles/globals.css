@@ -1041,14 +1041,19 @@ BOOK ID
   align-items: center;
   gap: 8px;
   color: #0365f2;
+  max-width: 230px;
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 40px;
 }
 
+.id__book--bookmark:hover {
+  color: #044298;
+  cursor: pointer;
+}
+
 .bookmark--icon {
-  width: 24px;
-  height: 24px;
+  font-size: 26px;
 }
 
 .id__book--secondary-title {

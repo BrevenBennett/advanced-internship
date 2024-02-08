@@ -14,22 +14,15 @@ import { openLoginModal } from "@/redux/modalSlice";
 export default function Sidebar() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
+  console.log(!!user.email)
   console.log(user)
 
   const [loginText, setLoginText] = useState("Logout");
-
-  if (user.email) {
-    setLoginText("Login")
-  }
 
   async function handleSignOut() {
     await signOut(auth);
     dispatch(signOutUser());
     setLoginText("Login");
-  }
-
-  function handleLogin() {
-    dispatch(openLoginModal())
   }
 
   return (
@@ -70,7 +63,8 @@ export default function Sidebar() {
           <SidebarLink
             Icon={LuLogOut}
             text={loginText}
-            onClick={user.email !== null ? handleSignOut : handleLogin}
+            onClick={user.email ? handleSignOut : () => dispatch(openLoginModal())
+            }
           />
         </div>
       </div>

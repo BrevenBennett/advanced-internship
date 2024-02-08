@@ -1,11 +1,18 @@
 import SearchBar from "@/components/SearchBar";
 import Sidebar from "@/components/Sidebar";
 import React, { useEffect, useState } from "react";
-import { FaRegStar, FaRegClock, FaBookmark, FaRegBookmark } from "react-icons/fa";
+import {
+  FaRegStar,
+  FaRegClock,
+  FaBookmark,
+  FaRegBookmark,
+} from "react-icons/fa";
 import { HiOutlineMicrophone } from "react-icons/hi2";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { SlBookOpen } from "react-icons/sl";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 export function getServerSideProps(context: any) {
   const id = context.query.id;
@@ -18,9 +25,11 @@ export function getServerSideProps(context: any) {
 }
 
 export default function Book({ id }: { id: string }) {
+  const user = useSelector((state: RootState) => state.user);
+
   const [bookData, setBookData] = useState<any>([]);
   const [libraryText, setLibraryText] = useState("Add title to My Library");
-  const [clicked, setClicked] = useState(false);
+  const [clicked, setClicked] = useState(true);
 
   async function fetchBookData() {
     try {

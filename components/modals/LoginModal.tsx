@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "@mui/material";
-import { RootState } from "../../redux/store"; 
+import { RootState } from "../../redux/store";
 import {
   closeLoginModal,
   openPasswordModal,
@@ -52,7 +52,10 @@ export default function LoginModal() {
 
   async function handleGuestLogIn() {
     await signInWithEmailAndPassword(auth, "guest1616@gmail.com", "654321");
-    router.push("/for-you");
+    if (router.pathname === "/") {
+      router.push("/for-you");
+    }
+    dispatch(closeLoginModal())
   }
 
   function handleCloseModal() {

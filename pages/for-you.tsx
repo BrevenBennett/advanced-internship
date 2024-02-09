@@ -5,49 +5,54 @@ import { GoClock } from "react-icons/go";
 import { FaRegStar, FaPlayCircle } from "react-icons/fa";
 import axios from "axios";
 
+interface Book {
+  id: string;
+  author: string;
+  title: string;
+  subTitle: string;
+  imageLink: string;
+  audioLink: string;
+  totalRating: number;
+  averageRating: number;
+  type: string;
+  status: string;
+  subscriptionRequired: boolean;
+  summary: string;
+  tags: string[];
+  bookDescription: string;
+  authorDescription: string;
+}
+
 export default function ForYouPage() {
-  const [selectedBook, setSelectedBook] = useState<any[]>([]);
-  const [recommendedBook, setRecommendedBook] = useState<any[]>([]);
-  const [suggestedBook, setSuggestedBook] = useState<any[]>([]);
-
-  async function fetchSelectedBook() {
-    try {
-      const { data } = await axios.get(
-        "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=selected"
-      );
-      setSelectedBook(data);
-      console.log(data)
-    } catch (error) {
-      console.error("Couldn't load", error);
-    }
-  }
-
-  async function fetchRecommendedBook() {
-    try {
-      const { data } = await axios.get(
-        "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended"
-      );
-      setRecommendedBook(data);
-    } catch (error) {
-      console.error("Couldn't load", error);
-    }
-  }
-
-  async function fetchSuggestedBook() {
-    try {
-      const { data } = await axios.get(
-        "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=suggested"
-      );
-      setSuggestedBook(data);
-    } catch (error) {
-      console.error("Couldn't load", error);
-    }
-  }
+  const [selectedBook, setSelectedBook] = useState<Book[]>([]);
+  const [recommendedBook, setRecommendedBook] = useState<Book[]>([]);
+  const [suggestedBook, setSuggestedBook] = useState<Book[]>([]);
 
   useEffect(() => {
-    fetchSelectedBook();
-    fetchRecommendedBook();
-    fetchSuggestedBook();
+    async function fetchBooks() {
+      try {
+        const [selectedResponse, recommendedResponse, suggestedResponse] =
+          await Promise.all([
+            axios.get(
+              "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=selected"
+            ),
+            axios.get(
+              "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended"
+            ),
+            axios.get(
+              "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=suggested"
+            ),
+          ]);
+
+        setSelectedBook(selectedResponse.data);
+        setRecommendedBook(recommendedResponse.data);
+        setSuggestedBook(suggestedResponse.data);
+      } catch (error) {
+        console.error("Couldn't load books", error);
+      }
+    }
+
+    fetchBooks();
   }, []);
 
   return (
@@ -60,7 +65,11 @@ export default function ForYouPage() {
             <div className="for-you__wrapper">
               <h1 className="for-you__title">Selected Just For You</h1>
               {selectedBook.map((book) => (
-                <a key={book.id} href={`/book/${book.id}`} className="selected__book">
+                <a
+                  key={book.id}
+                  href={`/book/${book.id}`}
+                  className="selected__book"
+                >
                   <div className="selected__book--subtitle">
                     {book.subTitle}
                   </div>
@@ -144,8 +153,14 @@ export default function ForYouPage() {
                 <h3 className="for-you__sub-title">Browse these books</h3>
                 <div className="for-you__recommended--books">
                   {suggestedBook.map((book) => (
-                    <a key={book.id} href={`/book/${book.id}`} className="for-you__recommended--books-link">
-                      {book.subscriptionRequired && <div className="book__pill">Premium</div>}
+                    <a
+                      key={book.id}
+                      href={`/book/${book.id}`}
+                      className="for-you__recommended--books-link"
+                    >
+                      {book.subscriptionRequired && (
+                        <div className="book__pill">Premium</div>
+                      )}
                       <figure className="book__image--wrapper">
                         <img
                           src={book.imageLink}

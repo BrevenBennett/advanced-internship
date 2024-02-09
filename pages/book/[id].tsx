@@ -11,8 +11,9 @@ import { HiOutlineMicrophone } from "react-icons/hi2";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { SlBookOpen } from "react-icons/sl";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { openLoginModal } from "@/redux/modalSlice";
 
 export function getServerSideProps(context: any) {
   const id = context.query.id;
@@ -25,9 +26,11 @@ export function getServerSideProps(context: any) {
 }
 
 export default function Book({ id }: { id: string }) {
+  const dispatch = useDispatch()
   const user = useSelector((state: RootState) => state.user);
+  const loggedIn = user.email
 
-  const [bookData, setBookData] = useState<any>([]);
+  const [bookData, setBookData] = useState<any>({});
   const [libraryText, setLibraryText] = useState("Add title to My Library");
   const [clicked, setClicked] = useState(true);
 
@@ -47,7 +50,10 @@ export default function Book({ id }: { id: string }) {
   }, []);
 
   function addTitleToLibrary() {
-    if (libraryText === "Add title to My Library") {
+    if (!loggedIn) {
+      dispatch(openLoginModal())
+    }
+    else if (libraryText === "Add title to My Library") {
       setLibraryText("Saved in My Library");
       setClicked(false);
     } else {
@@ -66,7 +72,7 @@ export default function Book({ id }: { id: string }) {
             <div className="id__wrapper">
               <div className="id__book">
                 <div className="id-book__title">
-                  {bookData.subscriptionRequired
+                  {(bookData.subscriptionRequired && user.email !== "guest1616@gmail.com")
                     ? bookData.title + " (Premium)"
                     : bookData.title}
                 </div>
@@ -101,15 +107,36 @@ export default function Book({ id }: { id: string }) {
                 </div>
                 <div className="button__wrapper">
                   <div className="button__items--wrapper">
-                    <button className="id-book__btn">
-                      <SlBookOpen className="id-book__btn--icon" /> Read
-                    </button>
+                    {!loggedIn && (
+                      <a href="/choose-plan">
+                        <button className="id-book__btn">
+                          <SlBookOpen className="id-book__btn--icon" /> Read
+                        </button>
+                      </a>
+                    )}
+                    {(loggedIn || !bookData.subscriptionRequired) && (
+                      <a href={`/player/${id}`}>
+                        <button className="id-book__btn">
+                          <SlBookOpen className="id-book__btn--icon" /> Read
+                        </button>
+                      </a>
+                    )}
                   </div>
                   <div className="button__items--wrapper">
-                    <button className="id-book__btn">
-                      <HiOutlineMicrophone className="id-book__btn--icon" />{" "}
-                      Listen
-                    </button>
+                    {!loggedIn && (
+                      <a href="/choose-plan">
+                        <button className="id-book__btn">
+                          <HiOutlineMicrophone className="id-book__btn--icon" /> Listen
+                        </button>
+                      </a>
+                    )}
+                    {(loggedIn || !bookData.subscriptionRequired) && (
+                      <a href={`/player/${id}`}>
+                        <button className="id-book__btn">
+                          <HiOutlineMicrophone className="id-book__btn--icon" /> Listen
+                        </button>
+                      </a>
+                    )}
                   </div>
                 </div>
                 <div onClick={addTitleToLibrary} className="id__book--bookmark">

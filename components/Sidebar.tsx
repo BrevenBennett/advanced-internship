@@ -10,19 +10,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { signOutUser } from "@/redux/userSlice";
 import { openLoginModal } from "@/redux/modalSlice";
+import LoginModal from "./modals/LoginModal";
+import PasswordModal from "./modals/PasswordModal";
+import SignupModal from "./modals/SignupModal";
 
 export default function Sidebar() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
-  console.log(!!user.email)
-  console.log(user)
+  console.log(!!user.email);
+  console.log(user);
 
   const [loginText, setLoginText] = useState("Logout");
 
   async function handleSignOut() {
-    await signOut(auth);
-    dispatch(signOutUser());
-    setLoginText("Login");
+    try {
+      await signOut(auth);
+      dispatch(signOutUser());
+      setLoginText("Login");
+    } catch (error) {
+      alert("Sign out issue");
+    }
+  }
+
+  function handleLogIn() {
+    dispatch(openLoginModal())
+    setLoginText("Logout")
   }
 
   return (
@@ -63,11 +75,15 @@ export default function Sidebar() {
           <SidebarLink
             Icon={LuLogOut}
             text={loginText}
-            onClick={user.email ? handleSignOut : () => dispatch(openLoginModal())
+            onClick={
+              user.email ? handleSignOut : handleLogIn
             }
           />
         </div>
       </div>
+      <LoginModal />
+      <PasswordModal />
+      <SignupModal />
     </div>
   );
 }

@@ -1,10 +1,16 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { TbRewindBackward10, TbRewindForward10 } from "react-icons/tb";
-import { FaCirclePlay } from "react-icons/fa6";
+import React, { useEffect, useRef, useState } from "react";
+import DisplayBook from "./DisplayBook";
+import Controls from "./Controls";
+import ProgressBar from "./ProgressBar";
 
 export default function Player({ id }: { id: string }) {
   const [bookData, setBookData] = useState<any>({});
+  const [timeProgress, setTimeProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const audioRef = useRef();
+  const progressBarRef = useRef();
 
   async function fetchBookData() {
     try {
@@ -24,25 +30,9 @@ export default function Player({ id }: { id: string }) {
   return (
     <>
       <div className="player__wrapper">
-        <div className="book__info--wrapper">
-          <figure className="player-book__img--mask">
-            <img src={bookData.imageLink} className="book__image"></img>
-          </figure>
-          <div className="player-book__details">
-            <div className="player-book__title">{bookData.title}</div>
-            <div className="player-book__author">{bookData.author}</div>
-          </div>
-        </div>
-        <div className="player__controls">
-          <TbRewindBackward10 />
-          <FaCirclePlay />
-          <TbRewindForward10 />
-        </div>
-        <div className="player__progress--wrapper">
-            <div className="audio__time"></div>
-            <input className="audio__bar" type="text" />
-            <div className="audio__time"></div>
-        </div>
+        <DisplayBook {...{ bookData, audioRef, setDuration, progressBarRef }} />
+        <Controls {...{ audioRef, progressBarRef, duration, setTimeProgress }} />
+        <ProgressBar {...{ audioRef, progressBarRef, timeProgress, duration}} />
       </div>
     </>
   );

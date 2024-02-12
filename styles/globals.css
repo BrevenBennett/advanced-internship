@@ -1089,6 +1089,65 @@ BOOK ID
   width: 300px;
 }
 
+/* 
+
+PLAYER ID
+
+*/
+
+.space {
+  white-space: pre-line;
+}
+
+.id-player__title {
+  font-size: 24px;
+  padding-bottom: 16px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #e1e7ea;
+}
+
+.player__summary--inner-container {
+  margin: 0 50px;
+}
+
+/* 
+
+AUDIO PLAYER
+
+*/
+
+.player__wrapper {
+  width: 100%;
+  background-color: #042330;
+  height: 80px;
+  position: fixed;
+  bottom: 0;
+  padding: 14px 40px;
+  display: flex;
+  gap: 33%;
+}
+
+.player-book__img--mask {
+  width: 50px;
+}
+
+.book__info--wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.player-book__details {
+  margin-left: 12px;
+}
+
+.player__controls {
+  display: flex;
+}
+
+.player__progress--wrapper {
+  display: flex;
+}
+
 @media (max-width: 1200px) {
   .selected__book {
     width: 100%;

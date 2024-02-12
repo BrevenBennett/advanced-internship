@@ -671,6 +671,10 @@ SIDEBAR
   height: calc(100vh - 60px);
 }
 
+.sidebar__wrapper--player {
+  margin-bottom: 95px;
+}
+
 .sidebar__top,
 .sidebar__bottom {
   display: flex;
@@ -696,9 +700,8 @@ SIDEBAR
   background-color: #f0efef;
 }
 
-.sidebar__link--wrapper:active::before {
-  content: "";
-  background-color: #20ba68;
+#sidebar__link--wrapper-active {
+  background-color: transparent;
   width: 5px;
   height: 100%;
   position: absolute;
@@ -1128,6 +1131,10 @@ AUDIO PLAYER
   justify-content: space-between;
 }
 
+.player__wrapper > div {
+  width: calc(100% / 3);
+}
+
 .player-book__img--mask {
   height: 48px;
   width: 48px;
@@ -1136,10 +1143,7 @@ AUDIO PLAYER
 .book__info--wrapper {
   display: flex;
   align-items: center;
-}
-
-.player-book__details {
-  margin-left: 12px;
+  gap: 12px;
 }
 
 .player-book__title {
@@ -1157,10 +1161,7 @@ AUDIO PLAYER
   display: flex;
   align-items: center;
   gap: 24px;
-  width: 100%;
-  max-width: 150px;
   padding-top: 12px;
-  margin-left: 200px;
 }
 
 .skip {
@@ -1200,7 +1201,7 @@ input[type="range"] {
 }
 
 input[type="range"]::before {
-  content: '';
+  content: "";
   height: 4px;
   background: rgb(43, 217, 124);
   width: var(--range-progress);
@@ -1211,7 +1212,7 @@ input[type="range"]::before {
   left: 0;
 }
 
-input[type="range"]::-webkit-slider-thumb{
+input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 10px;
   width: 10px;

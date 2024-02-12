@@ -37,7 +37,7 @@ export default function PlayerId({ id }: { id: string }) {
       <Sidebar />
       <Player id={id} />
       <div className="wrapper">
-        <SearchBar />
+        <SearchBar  />
         <div className="container">
           <div className="row">
             <div className="player__summary--inner-container">

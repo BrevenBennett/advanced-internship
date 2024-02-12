@@ -671,6 +671,10 @@ SIDEBAR
   height: calc(100vh - 60px);
 }
 
+.sidebar__wrapper--player {
+  margin-bottom: 95px;
+}
+
 .sidebar__top,
 .sidebar__bottom {
   display: flex;
@@ -696,9 +700,8 @@ SIDEBAR
   background-color: #f0efef;
 }
 
-.sidebar__link--wrapper:active::before {
-  content: "";
-  background-color: #20ba68;
+#sidebar__link--wrapper-active {
+  background-color: transparent;
   width: 5px;
   height: 100%;
   position: absolute;
@@ -1107,7 +1110,7 @@ PLAYER ID
 }
 
 .player__summary--inner-container {
-  margin: 0 50px;
+  margin: 0 50px 50px 0;
 }
 
 /* 
@@ -1124,29 +1127,111 @@ AUDIO PLAYER
   bottom: 0;
   padding: 14px 40px;
   display: flex;
-  gap: 33%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.player__wrapper > div {
+  width: calc(100% / 3);
 }
 
 .player-book__img--mask {
-  width: 50px;
+  height: 48px;
+  width: 48px;
 }
 
 .book__info--wrapper {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
-.player-book__details {
-  margin-left: 12px;
+.player-book__title {
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.player-book__author {
+  font-size: 14px;
+  color: #bac8ce;
 }
 
 .player__controls {
   display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-top: 12px;
+}
+
+.skip {
+  font-size: 32px;
+  color: #fff;
+}
+
+.toggle {
+  font-size: 40px;
+  color: #fff;
 }
 
 .player__progress--wrapper {
   display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 340px;
 }
+
+.audio__time {
+  color: #fff;
+  font-size: 14px;
+}
+
+input[type="range"] {
+  --range-progress: 0;
+  -webkit-appearance: none;
+  position: relative;
+  background: rgb(109, 120, 125);
+  width: 100%;
+  max-width: 300px;
+  height: 4px;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::before {
+  content: "";
+  height: 4px;
+  background: rgb(43, 217, 124);
+  width: var(--range-progress);
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  cursor: pointer;
+  position: relative;
+}
+
+input[type="range"]:active::-webkit-slider-thumb {
+  transform: scale(1.2);
+}
+
+/* 
+
+RESPONSIVENESS
+
+*/
 
 @media (max-width: 1200px) {
   .selected__book {

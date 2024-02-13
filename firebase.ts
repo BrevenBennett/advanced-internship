@@ -11,9 +11,13 @@ const firebaseConfig = {
   projectId: "advanced-internship-2dc8e",
   storageBucket: "advanced-internship-2dc8e.appspot.com",
   messagingSenderId: "412231063668",
-  appId: "1:412231063668:web:68d9ad4236f5cee5f3d921"
+  appId: "1:412231063668:web:68d9ad4236f5cee5f3d921",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app)
+export const auth = getAuth(app);
+
+export const initFirebase = () => {
+  return app;
+};

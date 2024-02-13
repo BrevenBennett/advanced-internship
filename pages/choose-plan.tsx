@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ImBook } from "react-icons/im";
 import { RiPlantFill } from "react-icons/ri";
 import { FaHandshake } from "react-icons/fa";
@@ -12,6 +12,10 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import Footer from "@/components/Footer";
+import { initFirebase } from "@/firebase";
+import { getAuth } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { getCheckoutUrl } from "@/stripePayment";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -42,49 +46,87 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 export default function ChoosePlan() {
+  const app = initFirebase();
+  const auth = getAuth(app);
+
+  const email = auth.currentUser?.email
+  const router = useRouter();
+  const [isPremium, setIsPremium] = useState<boolean>(false)
+  const [isPremiumPlus, setIsPremiumPlus] = useState<boolean>(false)
+
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
+  const [selectedPlan, setSelectedPlan] = useState<string | null>("premium-plus");
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
       setExpanded(newExpanded ? panel : false);
     };
 
+  const upgradeToPremium = async () => {
+    const priceId = "price_1OjRrpH8u6qhzYvmrMPh60HJ";
+    const checkoutUrl = await getCheckoutUrl(app, priceId);
+    router.push(checkoutUrl)
+  }
+  
+  const upgradeToPremiumPlus = async () => {
+    const priceId = "price_1OjRrNH8u6qhzYvm4CQe7HIz";
+    const checkoutUrl = await getCheckoutUrl(app, priceId);
+    router.push(checkoutUrl)
+  }
+
   return (
     <>
       <section id="plan__landing">
         <div className="plan__header">
-          <h1 className="plan__header--title">Get unlimited access to many amazing books to read</h1>
-          <h4 className="plan__header--subtitle">Turn ordinary moments into amazing learning opportunities</h4>
+          <h1 className="plan__header--title">
+            Get unlimited access to many amazing books to read
+          </h1>
+          <h4 className="plan__header--subtitle">
+            Turn ordinary moments into amazing learning opportunities
+          </h4>
           <figure className="plan__header--img-mask">
-            <img className="plan__header--img" src="/assets/plan_img.png" alt="plan" />
+            <img
+              className="plan__header--img"
+              src="/assets/plan_img.png"
+              alt="plan"
+            />
           </figure>
         </div>
 
         <div className="container">
           <div className="row">
-            <div className="plan__detail">
-              <ImBook />
-              <div className="plan__detail--text">
-                <b>Key ideas in a few min</b> with many books to read
+            <div className="plan__details--wrapper">
+              <div className="plan__detail">
+                <ImBook className="plan__detail--icon" />
+                <div className="plan__detail--text">
+                  <b>Key ideas in a few min</b> with many books to read
+                </div>
               </div>
-            </div>
-            <div className="plan__detail">
-              <RiPlantFill />
-              <div className="plan__detail--text">
-                <b>3 million</b> people growing with Summarist everyday
+              <div className="plan__detail">
+                <RiPlantFill className="plan__detail--icon" />
+                <div className="plan__detail--text">
+                  <b>3 million</b> people growing with Summarist everyday
+                </div>
               </div>
-            </div>
-            <div className="plan__detail">
-              <FaHandshake />
-              <div className="plan__detail--text">
-                <b>Precise recommendations</b> collections curated by experts
+              <div className="plan__detail">
+                <FaHandshake className="plan__detail--icon" />
+                <div className="plan__detail--text">
+                  <b>Precise recommendations</b> collections curated by experts
+                </div>
               </div>
             </div>
 
             <div className="plan__title">Choose the plan that fits you</div>
-            <div className="plan__card">
+            <div
+              onClick={() => setSelectedPlan("premium-plus")}
+              className={`plan__card ${
+                selectedPlan === "premium-plus" ? "plan__card--active" : ""
+              }`}
+            >
               <div className="plan__card--select">
-                <div className="plan__card--select-circle"></div>
+                {selectedPlan === "premium-plus" && (
+                  <div className="plan__card--select-circle"></div>
+                )}
               </div>
               <div className="plan__card--description">
                 <div className="plan__card--title">Premium Plus Yearly</div>
@@ -95,29 +137,39 @@ export default function ChoosePlan() {
               </div>
             </div>
 
-            <div className="break__wrapper">
-              <div className="line"></div>
-              <div className="or">or</div>
-              <div className="line"></div>
+            <div className="break__wrapper plan__break--wrapper">
+              <div className="line plan__line1"></div>
+              <div className="or plan__or">or</div>
+              <div className="line plan__line2"></div>
             </div>
 
-            <div className="plan__card">
+            <div
+              onClick={() => setSelectedPlan("premium-monthly")}
+              className={`plan__card ${
+                selectedPlan === "premium-monthly" ? "plan__card--active" : ""
+              }`}
+            >
               <div className="plan__card--select">
-                <div className="plan__card--select-circle"></div>
+                {selectedPlan === "premium-monthly" && (
+                  <div className="plan__card--select-circle"></div>
+                )}
               </div>
               <div className="plan__card--description">
-                <div className="plan__card--title">Premium Plus Yearly</div>
-                <div className="plan__card--price">$99.99/year</div>
-                <div className="plan__card--trial">
-                  7-day free trial included
-                </div>
+                <div className="plan__card--title">Premium Monthly</div>
+                <div className="plan__card--price">$9.99/month</div>
+                <div className="plan__card--trial">No trial included</div>
               </div>
             </div>
             <div className="trial__wrapper">
-              <div className="plan__button">Start your 7-day free trial</div>
-              <div className="plan__detail">
-                Cancel your trial at any time before it ends, and you won't be
-                charged.
+              <button onClick={selectedPlan === "premium-plus" ? upgradeToPremiumPlus : upgradeToPremium} className="plan__button">
+                {selectedPlan === "premium-plus"
+                  ? "Start your 7-day free trial"
+                  : "Start your first month"}
+              </button>
+              <div className="plan__disclaimer">
+                {selectedPlan === "premium-plus"
+                  ? "Cancel your trial at any time before it ends, and you won't be charged."
+                  : "30-day money back guarantee, no questions asked."}
               </div>
             </div>
 

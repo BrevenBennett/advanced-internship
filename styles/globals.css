@@ -1229,6 +1229,50 @@ input[type="range"]:active::-webkit-slider-thumb {
 
 /* 
 
+CHOOSE-PLAN
+
+*/
+
+.plan__header {
+  padding: 48px 48px 0 48px;
+  height: 67vh;
+  background-color: #032b41;
+  border-bottom-left-radius: 35%;
+  border-bottom-right-radius: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.plan__header--title {
+  font-size: 48px;
+  color: #fff;
+  margin-bottom: 40px;
+}
+
+.plan__header--subtitle {
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+
+.plan__header--img-mask {
+  height: 340px;
+  max-width: 340px;
+}
+
+.plan__header--img {
+  border-top-right-radius: 50%;
+  border-top-left-radius: 50%;
+  height: 100%;
+  width: 100%;
+}
+
+/* 
+
 RESPONSIVENESS
 
 */

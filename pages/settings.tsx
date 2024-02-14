@@ -72,11 +72,11 @@ export default function settings() {
                     </a>
                   )}
                 </div>
-                <div className="settings__description--wrapper">
+                <div className="settings__description--wrapper no-border">
                   <div className="settings__subtitle">Email</div>
                   <div className="settings__text">{user.email}</div>
                 </div>
-              </>  
+              </>
             )}
           </div>
         </div>

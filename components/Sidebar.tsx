@@ -24,13 +24,10 @@ export default function Sidebar() {
 
   const playerIdPage = router.pathname === "/player/[id]";
 
-  const [loginText, setLoginText] = useState("Logout");
-
   async function handleSignOut() {
     try {
       await signOut(auth);
       dispatch(signOutUser());
-      setLoginText("Login");
     } catch (error) {
       alert("Sign out issue");
     }
@@ -38,12 +35,13 @@ export default function Sidebar() {
 
   function handleLogIn() {
     dispatch(openLoginModal());
-    setLoginText("Logout");
   }
 
   function showGreen() {
-    const elem = document.getElementById("sidebar__link--wrapper-active") as HTMLElement;
-    elem.style.backgroundColor = '#20ba68'
+    const elem = document.getElementById(
+      "sidebar__link--wrapper-active"
+    ) as HTMLElement;
+    elem.style.backgroundColor = "#20ba68";
   }
 
   return (
@@ -83,7 +81,12 @@ export default function Sidebar() {
           />
         </div>
         <div className="sidebar__bottom">
-          <SidebarLink Icon={CiSettings} text={"Settings"} link="/settings" onClick={showGreen} />
+          <SidebarLink
+            Icon={CiSettings}
+            text={"Settings"}
+            link="/settings"
+            onClick={showGreen}
+          />
           <SidebarLink
             Icon={IoIosHelpCircleOutline}
             text={"Help & Support"}
@@ -91,7 +94,7 @@ export default function Sidebar() {
           />
           <SidebarLink
             Icon={LuLogOut}
-            text={loginText}
+            text={user.email ? "Logout" : "Login"}
             onClick={user.email ? handleSignOut : handleLogIn}
           />
         </div>

@@ -44,7 +44,10 @@ export default function LoginModal() {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
-      router.push("/for-you");
+      if (router.pathname === "/") {
+        router.push("/for-you");
+      }
+      dispatch(closeLoginModal());
     } catch (error) {
       console.error("Google sign in error:", error);
     }
@@ -55,7 +58,7 @@ export default function LoginModal() {
     if (router.pathname === "/") {
       router.push("/for-you");
     }
-    dispatch(closeLoginModal())
+    dispatch(closeLoginModal());
   }
 
   function handleCloseModal() {

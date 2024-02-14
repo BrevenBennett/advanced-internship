@@ -18,6 +18,7 @@ export const getPremiumStatus = async (app: FirebaseApp) => {
   const q = query(
     subscriptionsRef,
     where("status", "in", ["trialing", "active"]),
+    // where("metadata.tier", "in", ["premium, premium-plus"])
   );
   console.log(q)
 

@@ -9,24 +9,47 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function settings() {
+  // const app = initFirebase();
+  // const auth = getAuth(app);
+
+  // const user = useSelector((state: RootState) => state.user);
+  // const dispatch = useDispatch();
+
+  // const [isPremium, setIsPremium] = useState<boolean>(false);
+  // const [subscription, setSubscription] = useState<string | undefined>("")
+
+  // useEffect(() => {
+  //   const checkPremium = async () => {
+  //     const newPremiumStatus = auth.currentUser
+  //       ? await getPremiumStatus(app)
+  //       : false;
+  //     setIsPremium(newPremiumStatus);
+  //   };
+  //   checkPremium();
+  // }, [app, auth.currentUser?.uid]);
+
   const app = initFirebase();
   const auth = getAuth(app);
 
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
-  const [isPremium, setIsPremium] = useState<boolean>(false);
-  // const [subscription, setSubscription] = useState<string | undefined>("")
+  const [premiumTier, setPremiumTier] = useState<string>("Basic");
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const checkPremium = async () => {
-      const newPremiumStatus = auth.currentUser
-        ? await getPremiumStatus(app)
-        : false;
-      setIsPremium(newPremiumStatus);
+    const fetchPremiumTier = async () => {
+      try {
+        const userPremiumTier = await getPremiumStatus(app);
+        setPremiumTier(userPremiumTier);
+      } catch (error) {
+        console.error("Error fetching premium tier:", error);
+      } finally {
+        setLoading(false);
+      }
     };
-    checkPremium();
-  }, [app, auth.currentUser?.uid]);
+    fetchPremiumTier();
+  }, [app]);
 
   return (
     <>
@@ -64,9 +87,10 @@ export default function settings() {
                     Your Subscription Plan
                   </div>
                   <div className="settings__text">
-                    {isPremium ? `Premium` : "Basic"}
+                    {/* {isPremium ? `Premium` : "Basic"} */}
+                    {premiumTier}
                   </div>
-                  {!isPremium && (
+                  {premiumTier === "Basic" && (
                     <a href="/choose-plan" className="btn settings__btn">
                       Upgrade to Premium
                     </a>

@@ -33,7 +33,10 @@ export default function LoginModal() {
   async function handleLogIn() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push("/for-you");
+      if (router.pathname === "/") {
+        router.push("/for-you");
+      }
+      dispatch(closeLoginModal());
     } catch (error) {
       console.error("Login Error:", error);
       setError(true);

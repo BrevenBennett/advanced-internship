@@ -47,6 +47,7 @@ export default function SignupModal() {
       const result = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential?.accessToken;
+      console.log(token)
       const user = result.user;
       router.push("/for-you");
     } catch (error) {
@@ -63,6 +64,7 @@ export default function SignupModal() {
         setUser({
           email: userEmail,
           uid: currentUser.uid,
+          subscriptionStatus: "Basic"
         })
       );
     });

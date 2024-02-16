@@ -27,8 +27,8 @@ export const getCheckoutUrl = async (
 
   const docRef = await addDoc(checkoutSessionRef, {
     price: priceId,
-    success_url: window.location.origin,
-    cancel_url: window.location.origin,
+    success_url: window.location.origin + "/for-you",
+    cancel_url: window.location.origin + "/for-you",
   });
 
   return new Promise<string>((resolve, reject) => {

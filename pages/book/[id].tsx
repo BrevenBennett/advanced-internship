@@ -14,6 +14,10 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { openLoginModal } from "@/redux/modalSlice";
+import { getPremiumStatus } from "@/stripe/getPremiumStatus";
+import { updateSubscription } from "@/redux/userSlice";
+import { initFirebase } from "@/firebase";
+import { getAuth } from "firebase/auth";
 
 export function getServerSideProps(context: any) {
   const id = context.query.id;
@@ -26,9 +30,15 @@ export function getServerSideProps(context: any) {
 }
 
 export default function Book({ id }: { id: string }) {
-  const dispatch = useDispatch()
+  const app = initFirebase();
+  const auth = getAuth(app);
+
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
-  const loggedIn = user.email
+  const subscriptionStatus = useSelector(
+    (state: RootState) => state.user.subscriptionStatus
+  );
+  const loggedIn = user.email;
 
   const [bookData, setBookData] = useState<any>({});
   const [libraryText, setLibraryText] = useState("Add title to My Library");
@@ -45,15 +55,22 @@ export default function Book({ id }: { id: string }) {
     }
   }
 
+  const checkPremium = async () => {
+    const newPremiumStatus = auth.currentUser
+      ? await getPremiumStatus(app)
+      : "Basic";
+    dispatch(updateSubscription({ subscriptionStatus: newPremiumStatus }));
+  };
+
   useEffect(() => {
+    checkPremium();
     fetchBookData();
-  }, []);
+  }, [app, auth.currentUser?.uid]);
 
   function addTitleToLibrary() {
     if (!loggedIn) {
-      dispatch(openLoginModal())
-    }
-    else if (libraryText === "Add title to My Library") {
+      dispatch(openLoginModal());
+    } else if (libraryText === "Add title to My Library") {
       setLibraryText("Saved in My Library");
       setClicked(false);
     } else {
@@ -72,7 +89,8 @@ export default function Book({ id }: { id: string }) {
             <div className="id__wrapper">
               <div className="id__book">
                 <div className="id-book__title">
-                  {(bookData.subscriptionRequired && user.email !== "guest1616@gmail.com")
+                  {bookData.subscriptionRequired &&
+                  subscriptionStatus === "Basic"
                     ? bookData.title + " (Premium)"
                     : bookData.title}
                 </div>
@@ -106,38 +124,87 @@ export default function Book({ id }: { id: string }) {
                   </div>
                 </div>
                 <div className="button__wrapper">
-                  <div className="button__items--wrapper">
-                    {!loggedIn && (
-                      <a href="/choose-plan">
-                        <button className="id-book__btn">
+                  {loggedIn ? (
+                    bookData.subscriptionRequired ? (
+                      subscriptionStatus === "Basic" ? (
+                        <>
+                          <a href="/choose-plan">
+                            <div className="button__items--wrapper">
+                              <button className="id-book__btn">
+                                <SlBookOpen className="id-book__btn--icon" />{" "}
+                                Read
+                              </button>
+                            </div>
+                          </a>
+                          <a href="/choose-plan">
+                            <div className="button__items--wrapper">
+                              <button className="id-book__btn">
+                                <HiOutlineLightBulb className="id-book__btn--icon" />{" "}
+                                Listen
+                              </button>
+                            </div>
+                          </a>
+                        </>
+                      ) : (
+                        <>
+                          <a href={`/player/${id}`}>
+                            <div className="button__items--wrapper">
+                              <button className="id-book__btn">
+                                <SlBookOpen className="id-book__btn--icon" />{" "}
+                                Read
+                              </button>
+                            </div>
+                          </a>
+                          <a href={`/player/${id}`}>
+                            <div className="button__items--wrapper">
+                              <button className="id-book__btn">
+                                <HiOutlineMicrophone className="id-book__btn--icon" />{" "}
+                                Listen
+                              </button>
+                            </div>
+                          </a>
+                        </>
+                      )
+                    ) : (
+                      <>
+                        <a href={`/player/${id}`}>
+                          <div className="button__items--wrapper">
+                            <button className="id-book__btn">
+                              <SlBookOpen className="id-book__btn--icon" /> Read
+                            </button>
+                          </div>
+                        </a>
+                        <a href={`/player/${id}`}>
+                          <div className="button__items--wrapper">
+                            <button className="id-book__btn">
+                              <HiOutlineLightBulb className="id-book__btn--icon" />{" "}
+                              Listen
+                            </button>
+                          </div>
+                        </a>
+                      </>
+                    )
+                  ) : (
+                    <>
+                      <div className="button__items--wrapper">
+                        <button
+                          onClick={() => dispatch(openLoginModal())}
+                          className="id-book__btn"
+                        >
                           <SlBookOpen className="id-book__btn--icon" /> Read
                         </button>
-                      </a>
-                    )}
-                    {(loggedIn || !bookData.subscriptionRequired) && (
-                      <a href={`/player/${id}`}>
-                        <button className="id-book__btn">
-                          <SlBookOpen className="id-book__btn--icon" /> Read
+                      </div>
+                      <div className="button__items--wrapper">
+                        <button
+                          onClick={() => dispatch(openLoginModal())}
+                          className="id-book__btn"
+                        >
+                          <HiOutlineMicrophone className="id-book__btn--icon" />{" "}
+                          Listen
                         </button>
-                      </a>
-                    )}
-                  </div>
-                  <div className="button__items--wrapper">
-                    {!loggedIn && (
-                      <a href="/choose-plan">
-                        <button className="id-book__btn">
-                          <HiOutlineMicrophone className="id-book__btn--icon" /> Listen
-                        </button>
-                      </a>
-                    )}
-                    {(loggedIn || !bookData.subscriptionRequired) && (
-                      <a href={`/player/${id}`}>
-                        <button className="id-book__btn">
-                          <HiOutlineMicrophone className="id-book__btn--icon" /> Listen
-                        </button>
-                      </a>
-                    )}
-                  </div>
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div onClick={addTitleToLibrary} className="id__book--bookmark">
                   {clicked ? (
@@ -150,12 +217,13 @@ export default function Book({ id }: { id: string }) {
                 <div className="id__book--secondary-title">
                   What's it about?
                 </div>
-                {bookData.tags && (
-                  <div className="id__book--tags-wrapper">
-                    <div className="id__book--tag">{bookData.tags[0]}</div>
-                    <div className="id__book--tag">{bookData.tags[1]}</div>
-                  </div>
-                )}
+                <div className="id__book--tags-wrapper">
+                  {bookData.tags?.map((tag: string, _: any) => (
+                    <div key={_} className="id__book--tag">
+                      {tag}
+                    </div>
+                  ))}
+                </div>
                 <div className="id__book--para">{bookData.bookDescription}</div>
                 <div className="id__book--secondary-title">
                   About the author

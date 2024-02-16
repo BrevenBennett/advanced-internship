@@ -17,7 +17,7 @@ export default function Controls({
   const playAnimationRef: any = useRef();
 
   const repeat = useCallback(() => {
-    const currentTime = audioRef.current.currentTime;
+    const currentTime = audioRef.current?.currentTime;
     setTimeProgress(currentTime);
     progressBarRef.current.value = currentTime;
     progressBarRef.current.style.setProperty(

@@ -4,6 +4,12 @@ import React, { useEffect, useState } from "react";
 import { GoClock } from "react-icons/go";
 import { FaRegStar, FaPlayCircle } from "react-icons/fa";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { getPremiumStatus } from "@/stripe/getPremiumStatus";
+import { initFirebase } from "@/firebase";
+import { getAuth } from "firebase/auth";
+import { updateSubscription } from "@/redux/userSlice";
 
 interface Book {
   id: string;
@@ -24,9 +30,25 @@ interface Book {
 }
 
 export default function ForYouPage() {
+  const app = initFirebase();
+  const auth = getAuth(app);
+
   const [selectedBook, setSelectedBook] = useState<Book[]>([]);
   const [recommendedBook, setRecommendedBook] = useState<Book[]>([]);
   const [suggestedBook, setSuggestedBook] = useState<Book[]>([]);
+
+  const dispatch = useDispatch();
+  const subscriptionStatus = useSelector(
+    (state: RootState) => state.user.subscriptionStatus
+  );
+  console.log(subscriptionStatus);
+
+  const checkPremium = async () => {
+    const newPremiumStatus = auth.currentUser
+      ? await getPremiumStatus(app)
+      : "Basic";
+    dispatch(updateSubscription({ subscriptionStatus: newPremiumStatus }));
+  };
 
   useEffect(() => {
     async function fetchBooks() {
@@ -52,8 +74,9 @@ export default function ForYouPage() {
       }
     }
 
+    checkPremium();
     fetchBooks();
-  }, []);
+  }, [app, auth.currentUser?.uid]);
 
   return (
     <>
@@ -110,9 +133,10 @@ export default function ForYouPage() {
                       href={`/book/${book.id}`}
                       className="for-you__recommended--books-link"
                     >
-                      {book.subscriptionRequired && (
-                        <div className="book__pill">Premium</div>
-                      )}
+                      {subscriptionStatus === "Basic" &&
+                        book.subscriptionRequired && (
+                          <div className="book__pill">Premium</div>
+                        )}
                       <figure className="book__image--wrapper">
                         <img
                           src={book.imageLink}
@@ -158,9 +182,10 @@ export default function ForYouPage() {
                       href={`/book/${book.id}`}
                       className="for-you__recommended--books-link"
                     >
-                      {book.subscriptionRequired && (
-                        <div className="book__pill">Premium</div>
-                      )}
+                      {subscriptionStatus === "Basic" &&
+                        book.subscriptionRequired && (
+                          <div className="book__pill">Premium</div>
+                        )}
                       <figure className="book__image--wrapper">
                         <img
                           src={book.imageLink}

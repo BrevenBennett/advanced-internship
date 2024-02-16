@@ -16,6 +16,7 @@ export default function settings() {
   const user = useSelector((state: RootState) => state.user);
   const subscription = useSelector((state: RootState) => state.user.subscriptionStatus)
   const dispatch = useDispatch();
+  const loggedIn = user.email;
 
   useEffect(() => {
     const checkPremium = async () => {
@@ -35,7 +36,7 @@ export default function settings() {
         <div className="container">
           <div className="row">
             <div className="settings__title">Settings</div>
-            {!user.email ? (
+            {!loggedIn ? (
               <>
                 <div className="settings__login--wrapper">
                   <figure className="settings__img--wrapper">

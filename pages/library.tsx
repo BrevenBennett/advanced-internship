@@ -1,16 +1,18 @@
 import SearchBar from "@/components/SearchBar";
 import Sidebar from "@/components/Sidebar";
+import { openLoginModal } from "@/redux/modalSlice";
 import React, { useState } from "react";
 import { FaRegStar } from "react-icons/fa";
 import { GoClock } from "react-icons/go";
+import { useDispatch } from "react-redux";
 
 export default function Library() {
-//   const [savedBook, setSavedBook] = useState<any[]>([]);
-
+  //   const [savedBook, setSavedBook] = useState<any[]>([]);
+  const dispatch = useDispatch();
 
   return (
     <>
-    <Sidebar />
+      <Sidebar />
       {/* <Sidebar />
       <div className="wrapper">
         <SearchBar />
@@ -68,6 +70,22 @@ export default function Library() {
             </div>
         </div>
       </div> */}
+      <>
+        <div className="settings__login--wrapper">
+          <figure className="settings__img--wrapper">
+            <img src="/assets/settings.png" alt="" className="settings__img" />
+          </figure>
+          <div className="settings__login--text">
+            Log in to your account to see your Library
+          </div>
+          <button
+            onClick={() => dispatch(openLoginModal())}
+            className="btn settings__btn"
+          >
+            Login
+          </button>
+        </div>
+      </>
     </>
   );
 }

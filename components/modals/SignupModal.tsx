@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 
 export default function SignupModal() {
   const isOpen = useSelector((state: RootState) => state.modal.signupModalOpen);
+  const subscriptionStatus = useSelector((state: RootState) => state.user.subscriptionStatus)
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -34,7 +35,10 @@ export default function SignupModal() {
         password
       );
 
-      router.push("/for-you");
+      if (router.pathname === "/") {
+        router.push("/for-you");
+      }
+      dispatch(closeSignupModal());
     } catch (error) {
       console.error("Sign Up Error:", error);
       setError(true);
@@ -49,7 +53,10 @@ export default function SignupModal() {
       const token = credential?.accessToken;
       console.log(token)
       const user = result.user;
-      router.push("/for-you");
+      if (router.pathname === "/") {
+        router.push("/for-you");
+      }
+      dispatch(closeSignupModal());
     } catch (error) {
       console.error("Google sign in error:", error);
     }

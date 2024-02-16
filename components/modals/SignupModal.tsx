@@ -64,7 +64,7 @@ export default function SignupModal() {
         setUser({
           email: userEmail,
           uid: currentUser.uid,
-          subscriptionStatus: "Basic"
+          subscriptionStatus: "Basic",
         })
       );
     });

@@ -3,53 +3,29 @@ import Sidebar from "@/components/Sidebar";
 import { initFirebase } from "@/firebase";
 import { openLoginModal } from "@/redux/modalSlice";
 import { RootState } from "@/redux/store";
+import { updateSubscription } from "@/redux/userSlice";
 import { getPremiumStatus } from "@/stripe/getPremiumStatus";
 import { getAuth } from "firebase/auth";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function settings() {
-  // const app = initFirebase();
-  // const auth = getAuth(app);
-
-  // const user = useSelector((state: RootState) => state.user);
-  // const dispatch = useDispatch();
-
-  // const [isPremium, setIsPremium] = useState<boolean>(false);
-  // const [subscription, setSubscription] = useState<string | undefined>("")
-
-  // useEffect(() => {
-  //   const checkPremium = async () => {
-  //     const newPremiumStatus = auth.currentUser
-  //       ? await getPremiumStatus(app)
-  //       : false;
-  //     setIsPremium(newPremiumStatus);
-  //   };
-  //   checkPremium();
-  // }, [app, auth.currentUser?.uid]);
-
   const app = initFirebase();
   const auth = getAuth(app);
 
   const user = useSelector((state: RootState) => state.user);
+  const subscription = useSelector((state: RootState) => state.user.subscriptionStatus)
   const dispatch = useDispatch();
 
-  const [premiumTier, setPremiumTier] = useState<string>("Basic");
-  const [loading, setLoading] = useState<boolean>(true);
-
   useEffect(() => {
-    const fetchPremiumTier = async () => {
-      try {
-        const userPremiumTier = await getPremiumStatus(app);
-        setPremiumTier(userPremiumTier);
-      } catch (error) {
-        console.error("Error fetching premium tier:", error);
-      } finally {
-        setLoading(false);
-      }
+    const checkPremium = async () => {
+      const newPremiumStatus = auth.currentUser
+        ? await getPremiumStatus(app)
+        : "Basic";
+      dispatch(updateSubscription({subscriptionStatus: newPremiumStatus}))
     };
-    fetchPremiumTier();
-  }, [app]);
+    checkPremium();
+  }, [app, auth.currentUser?.uid]);
 
   return (
     <>
@@ -86,11 +62,8 @@ export default function settings() {
                   <div className="settings__subtitle">
                     Your Subscription Plan
                   </div>
-                  <div className="settings__text">
-                    {/* {isPremium ? `Premium` : "Basic"} */}
-                    {premiumTier}
-                  </div>
-                  {premiumTier === "Basic" && (
+                  <div className="settings__text">{subscription}</div>
+                  {subscription === "Basic" && (
                     <a href="/choose-plan" className="btn settings__btn">
                       Upgrade to Premium
                     </a>

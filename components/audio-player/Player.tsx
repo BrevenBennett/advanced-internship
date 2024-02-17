@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import DisplayBook from "./DisplayBook";
 import Controls from "./Controls";
 import ProgressBar from "./ProgressBar";
+import { useDispatch } from "react-redux";
+import { setGlobalDuration } from "@/redux/audioPlayerSlice";
 
 export default function Player({ id }: { id: string }) {
   const [bookData, setBookData] = useState<any>({});

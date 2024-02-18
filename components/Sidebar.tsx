@@ -22,6 +22,8 @@ export default function Sidebar() {
   console.log(!!user.email);
   console.log(user);
 
+  // const [isClicked, setIsClicked] = useState(false)
+
   const playerIdPage = router.pathname === "/player/[id]";
 
   async function handleSignOut() {
@@ -35,13 +37,6 @@ export default function Sidebar() {
 
   function handleLogIn() {
     dispatch(openLoginModal());
-  }
-
-  function showGreen() {
-    const elem = document.getElementById(
-      "sidebar__link--wrapper-active"
-    ) as HTMLElement;
-    elem.style.backgroundColor = "#20ba68";
   }
 
   return (
@@ -61,7 +56,6 @@ export default function Sidebar() {
             Icon={TiHomeOutline}
             text={"For You"}
             link={"/for-you"}
-            onClick={showGreen}
           />
           <SidebarLink
             Icon={CiBookmark}
@@ -84,7 +78,6 @@ export default function Sidebar() {
             Icon={CiSettings}
             text={"Settings"}
             link="/settings"
-            onClick={showGreen}
           />
           <SidebarLink
             Icon={IoIosHelpCircleOutline}
@@ -125,7 +118,6 @@ function SidebarLink({
         className={`sidebar__link--wrapper ${className}`}
         onClick={onClick}
       >
-        <div id="sidebar__link--wrapper-active"></div>
         <Icon className="sidebar__link--icon" />
         <span className="sidebar__link--text">{text}</span>
       </a>

@@ -10,6 +10,7 @@ import axios from "axios";
 import { getAuth } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export function getServerSideProps(context: any) {
   const id = context.query.id;
@@ -30,15 +31,21 @@ export default function PlayerId({ id }: { id: string }) {
   const dispatch = useDispatch();
 
   const [bookData, setBookData] = useState<any>({});
+  const [isLoading, setIsLoading] = useState(false);
 
   async function fetchBookData() {
     try {
+      setIsLoading(true);
       const { data } = await axios.get(
         `https://us-central1-summaristt.cloudfunctions.net/getBook?id=${id}`
       );
       setBookData(data);
     } catch (error) {
       console.error("Oh no!", error);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000)
     }
   }
 
@@ -62,7 +69,11 @@ export default function PlayerId({ id }: { id: string }) {
         <SearchBar />
         <div className="container">
           <div className="row">
-            {loggedIn ? (
+            {isLoading ? (
+              <div className="spinner__wrapper">
+                <AiOutlineLoading3Quarters className="spinner" />
+              </div>
+            ) : loggedIn ? (
               <>
                 <div className="player__summary--inner-container">
                   <div className="id-book__title id-player__title">

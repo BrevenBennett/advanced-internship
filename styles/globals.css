@@ -119,6 +119,29 @@ button:disabled {
   }
 }
 
+.spinner__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 200px;
+}
+
+.spinner {
+  font-size: 72px;
+  color: #042330;
+  animation: rotate 600ms infinite linear;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 /* HOME */
 .section__title {
   font-size: 32px;
@@ -733,16 +756,17 @@ SIDEBAR
   position: relative;
 }
 
-.sidebar__link--wrapper:hover {
-  background-color: #f0efef;
-}
-
-#sidebar__link--wrapper-active {
-  background-color: transparent;
+.sidebar__link--wrapper:active:before {
+  content: "";
   width: 5px;
   height: 100%;
   position: absolute;
   left: 0;
+  background-color: #20ba68;
+}
+
+.sidebar__link--wrapper:hover {
+  background-color: #f0efef;
 }
 
 .sidebar__link--not-allowed {

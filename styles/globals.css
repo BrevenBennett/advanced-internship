@@ -758,12 +758,15 @@ SIDEBAR
   position: relative;
 }
 
-.sidebar__link--wrapper:link:visited::before {
-  content: "";
+.green__line {
   width: 5px;
   height: 100%;
   position: absolute;
   left: 0;
+  background-color: transparent;
+}
+
+.green__line--active {
   background-color: #2bd97c;
 }
 
@@ -1662,20 +1665,6 @@ BURGER MENU
 
   100% {
     transform: translateX(-100%);
-  }
-}
-
-.btn__menu--close .menu__backdrop {
-  animation: slide-out 400ms 100ms;
-}
-
-@keyframes slide-out {
-  0% {
-    transform: translateX(-100%);
-  }
-
-  100% {
-    transform: translateX(-200%);
   }
 }
 

@@ -56,6 +56,7 @@ export default function Sidebar({ onClick, className, children }: { onClick?: ()
             text={"For You"}
             link={"/for-you"}
             onClick={onClick}
+            className={router.pathname === "/for-you" ? "green__line--active" : ""}
           />
           <SidebarLink
             Icon={CiBookmark}
@@ -79,6 +80,7 @@ export default function Sidebar({ onClick, className, children }: { onClick?: ()
             text={"Settings"}
             link="/settings"
             onClick={onClick}
+            className={router.pathname === "/settings" ? "green__line--active" : ""}
           />
           <SidebarLink
             Icon={IoIosHelpCircleOutline}
@@ -116,9 +118,10 @@ function SidebarLink({
     <>
       <a
         href={link}
-        className={`sidebar__link--wrapper ${className}`}
+        className={`sidebar__link--wrapper ${className === "green__line--active" ? "" : className}`}
         onClick={onClick}
       >
+        <div className={`green__line ${className}`}></div>
         <Icon className="sidebar__link--icon" />
         <span className="sidebar__link--text">{text}</span>
       </a>

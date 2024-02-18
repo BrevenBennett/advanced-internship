@@ -1635,7 +1635,7 @@ BURGER MENU
   top: 0;
   left: 80%;
   right: 2%;
-  z-index: 3;
+  z-index: 5;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1652,7 +1652,31 @@ BURGER MENU
 .menu--open .menu__backdrop {
   visibility: visible;
   opacity: 1;
-  /* animation: slide-in 400ms 100ms backwards; */
+  animation: slide-in 400ms 100ms backwards;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(-200%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.btn__menu--close .menu__backdrop {
+  animation: slide-out 400ms 100ms;
+}
+
+@keyframes slide-out {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(-200%);
+  }
 }
 
 /* 
@@ -1776,11 +1800,12 @@ RESPONSIVENESS
     width: 100%;
   }
 
+  
   .sidebar {
     transform: translateX(-100%);
     width: 80%;
   }
-
+  
   .sidebar__wrapper {
     width: 100%;
   }

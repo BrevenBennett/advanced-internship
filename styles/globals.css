@@ -845,6 +845,7 @@ SEARCHBAR
   left: 50%;
   border: 1px solid #e1e7ea;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.14);
+  z-index: 10;
 }
 
 .search__book--link {

@@ -847,8 +847,8 @@ SEARCHBAR
   overflow-y: auto;
   max-height: 640px;
   margin-left: auto;
-  top: 13%;
-  left: 50%;
+  top: 100px;
+  right: 25px;
   border: 1px solid #e1e7ea;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.14);
   z-index: 10;

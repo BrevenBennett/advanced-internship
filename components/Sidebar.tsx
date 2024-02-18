@@ -15,14 +15,12 @@ import PasswordModal from "./modals/PasswordModal";
 import SignupModal from "./modals/SignupModal";
 import { useRouter } from "next/router";
 
-export default function Sidebar() {
+export default function Sidebar({ onClick, className, children }: { onClick?: () => void, className: string, children: any }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
   console.log(!!user.email);
   console.log(user);
-
-  // const [isClicked, setIsClicked] = useState(false)
 
   const playerIdPage = router.pathname === "/player/[id]";
 
@@ -40,7 +38,8 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${className}`}>
+      {children}
       <figure className="sidebar__img--mask">
         <img className="sidebar__img" src="/assets/logo.png" alt="logo" />
       </figure>
@@ -56,6 +55,7 @@ export default function Sidebar() {
             Icon={TiHomeOutline}
             text={"For You"}
             link={"/for-you"}
+            onClick={onClick}
           />
           <SidebarLink
             Icon={CiBookmark}
@@ -78,6 +78,7 @@ export default function Sidebar() {
             Icon={CiSettings}
             text={"Settings"}
             link="/settings"
+            onClick={onClick}
           />
           <SidebarLink
             Icon={IoIosHelpCircleOutline}

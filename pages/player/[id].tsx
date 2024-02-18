@@ -79,7 +79,7 @@ export default function PlayerId({ id }: { id: string }) {
                   <div className="id-book__title id-player__title">
                     {bookData.title}
                   </div>
-                  <div className="id__book--para space">{bookData.summary}</div>
+                  <div className="id__book--para id__book--para-player space">{bookData.summary}</div>
                 </div>
               </>
             ) : (

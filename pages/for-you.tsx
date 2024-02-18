@@ -10,7 +10,6 @@ import { getPremiumStatus } from "@/stripe/getPremiumStatus";
 import { initFirebase } from "@/firebase";
 import { getAuth } from "firebase/auth";
 import { updateSubscription } from "@/redux/userSlice";
-import { duration } from "@mui/material";
 import Skeleton from "@/components/Skeleton";
 
 interface Book {

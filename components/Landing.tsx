@@ -75,7 +75,7 @@ export default function Landing() {
                   <br className="remove--tablet" />
                   individuals who barely have time to read,
                   <br className="remove--tablet" />
-                  and even people who don't like to read.
+                  and even people who don&apos;t like to read.
                 </div>
                 <button onClick={() => dispatch(openLoginModal())} className="btn home__cta--btn">Login</button>
               </div>
@@ -278,7 +278,7 @@ export default function Landing() {
                 <div className="review__body">
                   I love this app! It provides
                   <b> concise and accurate summaries</b> of books in a way that
-                  is easy to understand. It's also very user-friendly and
+                  is easy to understand. It&apos;s also very user-friendly and
                   intuitive.
                 </div>
               </div>
@@ -304,10 +304,10 @@ export default function Landing() {
                   </div>
                 </div>
                 <div className="review__body">
-                  If you're a busy person who
-                  <b> loves reading but doesn't have the time</b> to read every
+                  If you&apos;re a busy person who
+                  <b> loves reading but doesn&apos;t have the time</b> to read every
                   book in full, this app is for you! The summaries are thorough
-                  and provide a great overview of the book's content.
+                  and provide a great overview of the book&apos;s content.
                 </div>
               </div>
             </div>

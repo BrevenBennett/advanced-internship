@@ -193,7 +193,7 @@ export default function ForYouPage() {
               <section id="recommended__books">
                 <h1 className="for-you__title">Recommended For You</h1>
                 <h3 className="for-you__sub-title">
-                  We think you'll like these
+                  We think you&apos;ll like these
                 </h3>
                 <div className="for-you__recommended--books">
                   {isLoading

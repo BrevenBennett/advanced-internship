@@ -209,7 +209,7 @@ export default function ChoosePlan() {
               onChange={handleChange("panel3")}
             >
               <AccordionSummary>
-                What's included in the Premium plan?
+                What&apos;s included in the Premium plan?
               </AccordionSummary>
               <AccordionDetails>
                 Premium membership provides you with the ultimate Summarist

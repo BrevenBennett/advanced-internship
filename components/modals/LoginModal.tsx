@@ -145,7 +145,7 @@ export default function LoginModal() {
             onClick={toggleToSignUpModal}
             className="modal__link modal__link--account"
           >
-            Don't have an account?
+            Don&apos;t have an account?
           </button>
         </div>
       </Modal>

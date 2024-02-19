@@ -321,7 +321,7 @@ export default function Book({ id }: { id: string }) {
                     <div className="bookmark__text">{libraryText}</div>
                   </div>
                   <div className="id__book--secondary-title">
-                    What's it about?
+                    What&apos;s it about?
                   </div>
                   <div className="id__book--tags-wrapper">
                     {bookData.tags?.map((tag: string, _: any) => (

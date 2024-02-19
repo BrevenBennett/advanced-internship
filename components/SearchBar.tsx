@@ -1,6 +1,6 @@
 import { useDebounce } from "@uidotdev/usehooks";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { GoClock } from "react-icons/go";
 import { IoIosSearch } from "react-icons/io";
@@ -13,10 +13,14 @@ import Link from "next/link";
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState<FormDataEntryValue | null>("");
-  const [results, setResults] = useState<[]>([]);
+  const [results, setResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  const [audioDurations, setAudioDurations] = useState<{
+    [key: string]: number;
+  }>({});
+  const audioRefs = useRef<{ [key: string]: HTMLAudioElement | null }>({});
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -58,6 +62,52 @@ export default function SearchBar() {
 
     search();
   }, [debouncedSearchTerm]);
+
+  const formatTime = (duration: number) => {
+    if (duration && !isNaN(duration)) {
+      const minutes = Math.floor(duration / 60);
+      const formatMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+      const seconds = Math.floor(duration % 60);
+      const formatSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+      return `${formatMinutes}:${formatSeconds}`;
+    }
+    return "00:00";
+  };
+
+  const onLoadedMetaData = (id: any) => {
+    const seconds = audioRefs.current[id]?.duration || 0;
+    setAudioDurations((prevDurations) => ({ ...prevDurations, [id]: seconds }));
+  };
+
+  const fetchAudioDurations = async () => {
+    try {
+      const durations: { [key: string]: number } = {};
+
+      for (const book of results) {
+        if (book.audioLink) {
+          const audio = new Audio(book.audioLink);
+          await new Promise<void>((resolve, reject) => {
+            audio.addEventListener("loadedmetadata", () => {
+              durations[book.id] = audio.duration;
+              resolve();
+            });
+            audio.addEventListener("error", reject);
+            audio.load();
+          });
+        }
+      }
+
+      setAudioDurations(durations);
+    } catch (error) {
+      console.error("Couldn't find audio durations:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (results.length > 0) {
+      fetchAudioDurations();
+    }
+  }, [results]);
 
   return (
     <div className="searchbar">
@@ -117,7 +167,15 @@ export default function SearchBar() {
                     href={`/book/${result.id}`}
                     className="search__book--link"
                   >
-                    <audio src={result.audioLink}></audio>
+                    {audioRefs && (
+                      <audio
+                        src={result?.audioLink}
+                        ref={(audioRef) =>
+                          (audioRefs.current[result.id] = audioRef)
+                        }
+                        onLoadedMetadata={() => onLoadedMetaData(result.id)}
+                      />
+                    )}
                     <figure className="search-book__image--wrapper">
                       <img
                         src={result.imageLink}
@@ -133,7 +191,7 @@ export default function SearchBar() {
                       <div className="recommended__books--details">
                         <GoClock className="recommended__books--details-icon" />
                         <div className="recommended__books--details-text">
-                          
+                          {formatTime(audioDurations[result.id] || 0)}
                         </div>
                       </div>
                     </div>

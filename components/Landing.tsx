@@ -263,7 +263,7 @@ export default function Landing() {
                   </div>
                 </div>
                 <div className="review__body">
-                  This app has been a <b>game-changer</b> for me! It's saved me
+                  This app has been a <b>game-changer</b> for me! It has saved me
                   so much time and effort in reading and comprehending books.
                   Highly recommend it to all book lovers.
                 </div>

@@ -1,4 +1,3 @@
-import { RootState } from "@/redux/store";
 import { useDebounce } from "@uidotdev/usehooks";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -6,7 +5,6 @@ import type { ChangeEvent, FormEvent } from "react";
 import { GoClock } from "react-icons/go";
 import { IoIosSearch } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
-import { useSelector } from "react-redux";
 import Skeleton from "./Skeleton";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaTimes } from "react-icons/fa";
@@ -18,9 +16,6 @@ export default function SearchBar() {
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
-  const duration = useSelector(
-    (state: RootState) => state.audioPlayer.duration
-  );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -55,7 +50,6 @@ export default function SearchBar() {
       }
 
       setResults(results);
-      console.log(results);
       setTimeout(() => {
         setIsLoading(false);
       }, 1000);
@@ -138,7 +132,7 @@ export default function SearchBar() {
                       <div className="recommended__books--details">
                         <GoClock className="recommended__books--details-icon" />
                         <div className="recommended__books--details-text">
-                          {duration}
+                          
                         </div>
                       </div>
                     </div>

@@ -51,7 +51,6 @@ export default function SignupModal() {
       const result = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential?.accessToken;
-      console.log(token)
       const user = result.user;
       if (router.pathname === "/") {
         router.push("/for-you");

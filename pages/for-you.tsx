@@ -45,7 +45,6 @@ export default function ForYouPage() {
   const subscriptionStatus = useSelector(
     (state: RootState) => state.user.subscriptionStatus
   );
-  console.log(subscriptionStatus);
 
   const checkPremium = async () => {
     const newPremiumStatus = auth.currentUser

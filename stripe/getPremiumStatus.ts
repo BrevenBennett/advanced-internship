@@ -27,7 +27,6 @@ export const getPremiumStatus = async (app: FirebaseApp) => {
         const subscriptionData = snapshot.docs[0]?.data();
         const tier = subscriptionData?.items[0]?.price.product.name as string;
         // In this implementation we only expect one active or trialing subscription to exist.
-        console.log("Subscription snapshot", snapshot.docs.length);
         if (snapshot.docs.length === 0) {
           console.log("No active or trialing subscriptions found");
           resolve("Basic");

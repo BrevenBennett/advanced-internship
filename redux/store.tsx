@@ -1,13 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import modalSlice from './modalSlice'
 import userSlice from './userSlice'
-import audioPlayerSlice from './audioPlayerSlice'
 
 export const store = configureStore({
   reducer: {
     modal: modalSlice,
     user: userSlice,
-    audioPlayer: audioPlayerSlice,
   },
 })
 

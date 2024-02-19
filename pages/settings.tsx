@@ -10,7 +10,7 @@ import { getAuth } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function settings() {
+export default function Settings() {
   const app = initFirebase();
   const auth = getAuth(app);
 

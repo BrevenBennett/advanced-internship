@@ -19,8 +19,6 @@ export default function Sidebar({ onClick, className, children }: { onClick?: ()
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
-  console.log(!!user.email);
-  console.log(user);
 
   const playerIdPage = router.pathname === "/player/[id]";
 

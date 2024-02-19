@@ -1502,11 +1502,11 @@ CHOOSE-PLAN
 }
 
 .plan__line1 {
-  margin-left: 370px;
+  margin-left: 320px;
 }
 
 .plan__line2 {
-  margin-right: 370px;
+  margin-right: 320px;
 }
 
 .plan__or {
@@ -1859,6 +1859,51 @@ RESPONSIVENESS
     justify-content: center;
     width: 100%;
   }
+
+  .plan__header {
+    border-bottom-left-radius: 0%;
+    border-bottom-right-radius: 0%;
+  }
+
+  .plan__header--title {
+    font-size: 26px;
+    margin-bottom: 0;
+  }
+
+  .plan__header--subtitle {
+    font-size: 16px;
+    margin-bottom: 0;
+  }
+
+  .plan__details--wrapper {
+    flex-direction: column;
+  }
+
+  .plan__detail {
+    width: 100%;
+  }
+
+  .plan__title {
+    font-size: 24px;
+  }
+
+  .plan__card {
+    width: 100%;
+    margin: 0;
+  }
+
+  .plan__line1 {
+    margin-left: 100px;
+  }
+
+  .plan__line2 {
+    margin-right: 100px;
+  }
+
+
+  /* .plan__line1, .plan__line2 {
+    margin: 0;
+  } */
 }
 
 @media (max-width: 576px) {

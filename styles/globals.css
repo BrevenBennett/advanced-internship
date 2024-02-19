@@ -527,7 +527,7 @@ MODAL
   align-items: center;
   width: 100%;
   max-width: 400px;
-  height: 65%;
+  height: 550px;
   padding: 32px;
   border: 1px solid transparent;
   border-radius: 10px;
@@ -537,11 +537,11 @@ MODAL
 }
 
 .modal__wrapper--signup {
-  height: 50%;
+  height: 400px;
 }
 
 .modal__wrapper--password {
-  height: 30%;
+  height: 250px;
 }
 
 .modal__close {
@@ -1899,15 +1899,16 @@ RESPONSIVENESS
   .plan__line2 {
     margin-right: 100px;
   }
-
-
-  /* .plan__line1, .plan__line2 {
-    margin: 0;
-  } */
 }
 
 @media (max-width: 576px) {
   .nav__list--mobile {
     display: none;
+  }
+}
+
+@media (max-width: 450px) {
+  .settings__wrapper {
+    width: 125%;
   }
 }

@@ -46,7 +46,7 @@ export default function Settings() {
   return (
     <>
       <Sidebar />
-      <div className="wrapper">
+      <div className="wrapper settings__wrapper">
         <SearchBar />
         <div className="container">
           <div className="row">

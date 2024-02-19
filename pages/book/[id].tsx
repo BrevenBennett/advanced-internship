@@ -1,6 +1,6 @@
 import SearchBar from "@/components/SearchBar";
 import Sidebar from "@/components/Sidebar";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   FaRegStar,
   FaRegClock,
@@ -45,6 +45,10 @@ export default function Book({ id }: { id: string }) {
   const [libraryText, setLibraryText] = useState("Add title to My Library");
   const [clicked, setClicked] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [audioDurations, setAudioDurations] = useState<{
+    [key: string]: number;
+  }>({});
+  const audioRefs = useRef<{ [key: string]: HTMLAudioElement | null }>({});
 
   async function fetchBookData() {
     try {
@@ -85,6 +89,52 @@ export default function Book({ id }: { id: string }) {
       setClicked(true);
     }
   }
+
+  const formatTime = (duration: number) => {
+    if (duration && !isNaN(duration)) {
+      const minutes = Math.floor(duration / 60);
+      const formatMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+      const seconds = Math.floor(duration % 60);
+      const formatSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+      return `${formatMinutes}:${formatSeconds}`;
+    }
+    return "00:00";
+  };
+
+  const onLoadedMetaData = (id: any) => {
+    const seconds = audioRefs.current[id]?.duration || 0;
+    setAudioDurations((prevDurations) => ({ ...prevDurations, [id]: seconds }));
+  };
+
+  const fetchAudioDurations = async () => {
+    try {
+      const durations: { [key: string]: number } = {};
+
+      for (const book of bookData) {
+        if (book.audioLink) {
+          const audio = new Audio(book.audioLink);
+          await new Promise<void>((resolve, reject) => {
+            audio.addEventListener("loadedmetadata", () => {
+              durations[book.id] = audio.duration;
+              resolve();
+            });
+            audio.addEventListener("error", reject);
+            audio.load();
+          });
+        }
+      }
+
+      setAudioDurations(durations);
+    } catch (error) {
+      console.error("Couldn't find audio durations:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (bookData.length > 0) {
+      fetchAudioDurations();
+    }
+  }, [bookData]);
 
   return (
     <>
@@ -149,9 +199,18 @@ export default function Book({ id }: { id: string }) {
                           ({bookData.totalRating} ratings)
                         </div>
                       </div>
+                      {audioRefs && (
+                        <audio
+                          src={bookData?.audioLink}
+                          ref={(audioRef) =>
+                            (audioRefs.current[bookData.id] = audioRef)
+                          }
+                          onLoadedMetadata={() => onLoadedMetaData(bookData.id)}
+                        />
+                      )}
                       <div className="details__wrapper">
                         <FaRegClock className="detail__icon" />
-                        <div className="detail">3:23</div>
+                        <div className="detail">{formatTime(audioDurations[bookData.id] || 0)}</div>
                       </div>
                       <div className="details__wrapper">
                         <HiOutlineMicrophone className="detail__icon" />

@@ -15,7 +15,7 @@ import PasswordModal from "./modals/PasswordModal";
 import SignupModal from "./modals/SignupModal";
 import { useRouter } from "next/router";
 
-export default function Sidebar({ onClick, className, children }: { onClick?: () => void, className: string, children: any }) {
+export default function Sidebar({ onClick, className, children }: { onClick?: () => void, className?: string, children?: any }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector((state: RootState) => state.user);

@@ -1,6 +1,6 @@
 import SearchBar from "@/components/SearchBar";
 import Sidebar from "@/components/Sidebar";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GoClock } from "react-icons/go";
 import { FaRegStar, FaPlayCircle } from "react-icons/fa";
 import axios from "axios";
@@ -37,13 +37,11 @@ export default function ForYouPage() {
   const [selectedBook, setSelectedBook] = useState<Book[]>([]);
   const [recommendedBook, setRecommendedBook] = useState<Book[]>([]);
   const [suggestedBook, setSuggestedBook] = useState<Book[]>([]);
-
   const [isLoading, setIsLoading] = useState(false);
+  const [audioDurations, setAudioDurations] = useState<{ [key: string]: number }>({});
+  const audioRefs = useRef<{ [key: string]: HTMLAudioElement | null }>({});
 
   const dispatch = useDispatch();
-  const duration = useSelector(
-    (state: RootState) => state.audioPlayer.duration
-  );
   const subscriptionStatus = useSelector(
     (state: RootState) => state.user.subscriptionStatus
   );
@@ -89,6 +87,52 @@ export default function ForYouPage() {
     fetchBooks();
   }, [app, auth.currentUser?.uid]);
 
+  const formatTime = (duration: number) => {
+    if (duration && !isNaN(duration)) {
+      const minutes = Math.floor(duration / 60);
+      const formatMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+      const seconds = Math.floor(duration % 60);
+      const formatSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+      return `${formatMinutes}:${formatSeconds}`;
+    }
+    return "00:00";
+  };
+
+  const onLoadedMetaData = (id: any) => {
+    const seconds = audioRefs.current[id]?.duration || 0;
+    setAudioDurations((prevDurations) => ({ ...prevDurations, [id]: seconds }));
+  };
+
+  const fetchAudioDurations = async () => {
+    try {
+      const durations: { [key: string]: number } = {};
+  
+      for (const book of selectedBook) {
+        if (book.audioLink) {
+          const audio = new Audio(book.audioLink);
+          await new Promise<void>((resolve, reject) => {
+            audio.addEventListener("loadedmetadata", () => {
+              durations[book.id] = audio.duration;
+              resolve();
+            });
+            audio.addEventListener("error", reject);
+            audio.load();
+          });
+        }
+      }
+  
+      setAudioDurations(durations);
+    } catch (error) {
+      console.error("Couldn't find audio durations:", error);
+    }
+  };
+  
+  useEffect(() => {
+    if (selectedBook.length > 0) {
+      fetchAudioDurations();
+    }
+  }, [selectedBook]);
+
   return (
     <>
       <Sidebar />
@@ -101,7 +145,7 @@ export default function ForYouPage() {
               {isLoading ? (
                 <Skeleton width="100%" height="190px" borderRadius="10px" />
               ) : (
-                selectedBook.map((book) => (
+                selectedBook.map((book: any) => (
                   <a
                     key={book.id}
                     href={`/book/${book.id}`}
@@ -182,7 +226,15 @@ export default function ForYouPage() {
                           href={`/book/${book.id}`}
                           className="for-you__recommended--books-link"
                         >
-                          <audio src={book.audioLink}></audio>
+                          {audioRefs && (
+                            <audio
+                              src={book?.audioLink}
+                              ref={(audioRef) =>
+                                (audioRefs.current[book.id] = audioRef)
+                              }
+                              onLoadedMetadata={() => onLoadedMetaData(book.id)}
+                            />
+                          )}
                           {subscriptionStatus === "Basic" &&
                             book.subscriptionRequired && (
                               <div className="book__pill">Premium</div>
@@ -215,7 +267,7 @@ export default function ForYouPage() {
                             <div className="recommended__books--details">
                               <GoClock className="recommended__books--details-icon" />
                               <div className="recommended__books--details-text">
-                                4:52
+                                {formatTime(audioDurations[book.id] || 0)}
                               </div>
                             </div>
                             <div className="recommended__books--details">
@@ -264,7 +316,15 @@ export default function ForYouPage() {
                           href={`/book/${book.id}`}
                           className="for-you__recommended--books-link"
                         >
-                          <audio src={book.audioLink}></audio>
+                          {audioRefs && (
+                            <audio
+                              src={book?.audioLink}
+                              ref={(audioRef) =>
+                                (audioRefs.current[book.id] = audioRef)
+                              }
+                              onLoadedMetadata={() => onLoadedMetaData(book.id)}
+                            />
+                          )}
                           {subscriptionStatus === "Basic" &&
                             book.subscriptionRequired && (
                               <div className="book__pill">Premium</div>
@@ -297,7 +357,7 @@ export default function ForYouPage() {
                             <div className="recommended__books--details">
                               <GoClock />
                               <div className="recommended__books--details-text">
-                                4:52
+                              {formatTime(audioDurations[book.id] || 0)}
                               </div>
                             </div>
                             <div className="recommended__books--details">

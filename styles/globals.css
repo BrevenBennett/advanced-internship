@@ -1905,6 +1905,10 @@ RESPONSIVENESS
   .nav__list--mobile {
     display: none;
   }
+
+  .search__books--wrapper {
+    max-width: 340px;
+  }
 }
 
 @media (max-width: 450px) {

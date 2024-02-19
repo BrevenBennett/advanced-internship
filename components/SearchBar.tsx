@@ -199,7 +199,7 @@ export default function SearchBar() {
                 ))
               )
             ) : (
-              <div className="">No Books Found</div>
+              <div>No Books Found</div>
             )}
           </div>
         )}

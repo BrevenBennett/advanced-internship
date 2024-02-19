@@ -11,6 +11,7 @@ import { initFirebase } from "@/firebase";
 import { getAuth } from "firebase/auth";
 import { updateSubscription } from "@/redux/userSlice";
 import Skeleton from "@/components/Skeleton";
+import Link from "next/link";
 
 interface Book {
   id: string;
@@ -145,7 +146,7 @@ export default function ForYouPage() {
                 <Skeleton width="100%" height="190px" borderRadius="10px" />
               ) : (
                 selectedBook.map((book: any) => (
-                  <a
+                  <Link
                     key={book.id}
                     href={`/book/${book.id}`}
                     className="selected__book"
@@ -185,7 +186,7 @@ export default function ForYouPage() {
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 ))
               )}
 
@@ -220,7 +221,7 @@ export default function ForYouPage() {
                         </div>
                       ))
                     : recommendedBook.map((book) => (
-                        <a
+                        <Link
                           key={book.id}
                           href={`/book/${book.id}`}
                           className="for-you__recommended--books-link"
@@ -276,7 +277,7 @@ export default function ForYouPage() {
                               </div>
                             </div>
                           </div>
-                        </a>
+                        </Link>
                       ))}
                 </div>
               </section>
@@ -310,7 +311,7 @@ export default function ForYouPage() {
                         </div>
                       ))
                     : suggestedBook.map((book) => (
-                        <a
+                        <Link
                           key={book.id}
                           href={`/book/${book.id}`}
                           className="for-you__recommended--books-link"
@@ -366,7 +367,7 @@ export default function ForYouPage() {
                               </div>
                             </div>
                           </div>
-                        </a>
+                        </Link>
                       ))}
                 </div>
               </section>

@@ -19,6 +19,7 @@ import { updateSubscription } from "@/redux/userSlice";
 import { initFirebase } from "@/firebase";
 import { getAuth } from "firebase/auth";
 import Skeleton from "@/components/Skeleton";
+import Link from "next/link";
 
 export function getServerSideProps(context: any) {
   const id = context.query.id;
@@ -229,61 +230,61 @@ export default function Book({ id }: { id: string }) {
                       bookData.subscriptionRequired ? (
                         subscriptionStatus === "Basic" ? (
                           <>
-                            <a href="/choose-plan">
+                            <Link href="/choose-plan">
                               <div className="button__items--wrapper">
                                 <button className="id-book__btn">
                                   <SlBookOpen className="id-book__btn--icon" />{" "}
                                   Read
                                 </button>
                               </div>
-                            </a>
-                            <a href="/choose-plan">
+                            </Link>
+                            <Link href="/choose-plan">
                               <div className="button__items--wrapper">
                                 <button className="id-book__btn">
                                   <HiOutlineLightBulb className="id-book__btn--icon" />{" "}
                                   Listen
                                 </button>
                               </div>
-                            </a>
+                            </Link>
                           </>
                         ) : (
                           <>
-                            <a href={`/player/${id}`}>
+                            <Link href={`/player/${id}`}>
                               <div className="button__items--wrapper">
                                 <button className="id-book__btn">
                                   <SlBookOpen className="id-book__btn--icon" />{" "}
                                   Read
                                 </button>
                               </div>
-                            </a>
-                            <a href={`/player/${id}`}>
+                            </Link>
+                            <Link href={`/player/${id}`}>
                               <div className="button__items--wrapper">
                                 <button className="id-book__btn">
                                   <HiOutlineMicrophone className="id-book__btn--icon" />{" "}
                                   Listen
                                 </button>
                               </div>
-                            </a>
+                            </Link>
                           </>
                         )
                       ) : (
                         <>
-                          <a href={`/player/${id}`}>
+                          <Link href={`/player/${id}`}>
                             <div className="button__items--wrapper">
                               <button className="id-book__btn">
                                 <SlBookOpen className="id-book__btn--icon" />{" "}
                                 Read
                               </button>
                             </div>
-                          </a>
-                          <a href={`/player/${id}`}>
+                          </Link>
+                          <Link href={`/player/${id}`}>
                             <div className="button__items--wrapper">
                               <button className="id-book__btn">
                                 <HiOutlineLightBulb className="id-book__btn--icon" />{" "}
                                 Listen
                               </button>
                             </div>
-                          </a>
+                          </Link>
                         </>
                       )
                     ) : (

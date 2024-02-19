@@ -7,6 +7,7 @@ import { RootState } from "@/redux/store";
 import { updateSubscription } from "@/redux/userSlice";
 import { getPremiumStatus } from "@/stripe/getPremiumStatus";
 import { getAuth } from "firebase/auth";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -90,9 +91,9 @@ export default function Settings() {
                   </div>
                   <div className="settings__text">{subscription}</div>
                   {subscription === "Basic" && (
-                    <a href="/choose-plan" className="btn settings__btn">
+                    <Link href="/choose-plan" className="btn settings__btn">
                       Upgrade to Premium
-                    </a>
+                    </Link>
                   )}
                 </div>
                 <div className="settings__description--wrapper no-border">

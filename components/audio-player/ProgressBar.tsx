@@ -1,6 +1,4 @@
-import { setGlobalDuration } from "@/redux/audioPlayerSlice";
 import React from "react";
-import { useDispatch } from "react-redux";
 
 export default function ProgressBar({
   progressBarRef,
@@ -13,8 +11,6 @@ export default function ProgressBar({
   timeProgress: any;
   duration: any;
 }) {
-  const dispatch = useDispatch();
-  dispatch(setGlobalDuration(formatTime(duration)))
 
   function handleProgressChange() {
     audioRef.current.currentTime = progressBarRef.current.value;

@@ -9,6 +9,7 @@ import Skeleton from "./Skeleton";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaTimes } from "react-icons/fa";
 import Sidebar from "./Sidebar";
+import Link from "next/link";
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState<FormDataEntryValue | null>("");
@@ -111,7 +112,7 @@ export default function SearchBar() {
                 </>
               ) : (
                 results.map((result: any) => (
-                  <a
+                  <Link
                     key={result.id}
                     href={`/book/${result.id}`}
                     className="search__book--link"
@@ -136,7 +137,7 @@ export default function SearchBar() {
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 ))
               )
             ) : (

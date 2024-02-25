@@ -15,14 +15,13 @@ export default function Settings() {
   const app = initFirebase();
   const auth = getAuth(app);
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  const user = useSelector((state: RootState) => state.user);
+  const email = useSelector((state: RootState) => state.user.email);
   const subscription = useSelector(
     (state: RootState) => state.user.subscriptionStatus
   );
   const dispatch = useDispatch();
-  const loggedIn = user.email;
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     try {
@@ -51,7 +50,38 @@ export default function Settings() {
         <div className="container">
           <div className="row">
             <div className="settings__title">Settings</div>
-            {!loggedIn ? (
+            {email ? (
+              isLoading ? (
+                <>
+                  <div className="settings__description--wrapper">
+                    <Skeleton width="183px" height="20px" />
+                    <Skeleton width="100px" height="20px" />
+                  </div>
+                  <div className="settings__description--wrapper no-border">
+                    <Skeleton width="100px" height="20px" />
+                    <Skeleton width="183px" height="20px" />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="settings__description--wrapper">
+                    <div className="settings__subtitle">
+                      Your Subscription Plan
+                    </div>
+                    <div className="settings__text">{subscription}</div>
+                    {subscription === "Basic" && (
+                      <Link href="/choose-plan" className="btn settings__btn">
+                        Upgrade to Premium
+                      </Link>
+                    )}
+                  </div>
+                  <div className="settings__description--wrapper no-border">
+                    <div className="settings__subtitle">Email</div>
+                    <div className="settings__text">{email}</div>
+                  </div>
+                </>
+              )
+            ) : (
               <>
                 <div className="settings__login--wrapper">
                   <figure className="settings__img--wrapper">
@@ -70,35 +100,6 @@ export default function Settings() {
                   >
                     Login
                   </button>
-                </div>
-              </>
-            ) : isLoading ? (
-              <>
-                <div className="settings__description--wrapper">
-                  <Skeleton width="183px" height="20px" />
-                  <Skeleton width="100px" height="20px" />
-                </div>
-                <div className="settings__description--wrapper no-border">
-                  <Skeleton width="100px" height="20px" />
-                  <Skeleton width="183px" height="20px" />
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="settings__description--wrapper">
-                  <div className="settings__subtitle">
-                    Your Subscription Plan
-                  </div>
-                  <div className="settings__text">{subscription}</div>
-                  {subscription === "Basic" && (
-                    <Link href="/choose-plan" className="btn settings__btn">
-                      Upgrade to Premium
-                    </Link>
-                  )}
-                </div>
-                <div className="settings__description--wrapper no-border">
-                  <div className="settings__subtitle">Email</div>
-                  <div className="settings__text">{user.email}</div>
                 </div>
               </>
             )}

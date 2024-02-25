@@ -14,8 +14,6 @@ import LoginModal from "./modals/LoginModal";
 import PasswordModal from "./modals/PasswordModal";
 import SignupModal from "./modals/SignupModal";
 import { useRouter } from "next/router";
-import Link from "next/link";
-import { UrlObject } from "url";
 
 export default function Sidebar({ onClick, className, children }: { onClick?: () => void, className?: string, children?: any }) {
   const dispatch = useDispatch();

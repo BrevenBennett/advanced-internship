@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ImBook } from "react-icons/im";
 import { RiPlantFill } from "react-icons/ri";
 import { FaHandshake } from "react-icons/fa";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 import { styled } from "@mui/material/styles";
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
@@ -49,12 +50,14 @@ export default function ChoosePlan() {
   const app = initFirebase();
   const auth = getAuth(app);
 
-  const email = auth.currentUser?.email
+  const email = auth.currentUser?.email;
   const router = useRouter();
-  
 
+  const [isLoading, setIsLoading] = useState(false);
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
-  const [selectedPlan, setSelectedPlan] = useState<string | null>("premium-plus");
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(
+    "premium-plus"
+  );
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
@@ -62,16 +65,18 @@ export default function ChoosePlan() {
     };
 
   const upgradeToPremium = async () => {
+    setIsLoading(true);
     const priceId = "price_1OjRrpH8u6qhzYvmrMPh60HJ";
     const checkoutUrl = await getCheckoutUrl(app, priceId);
-    router.push(checkoutUrl)
-  }
-  
+    router.push(checkoutUrl);
+  };
+
   const upgradeToPremiumPlus = async () => {
+    setIsLoading(true);
     const priceId = "price_1OjRrNH8u6qhzYvm4CQe7HIz";
     const checkoutUrl = await getCheckoutUrl(app, priceId);
-    router.push(checkoutUrl)
-  }
+    router.push(checkoutUrl);
+  };
 
   return (
     <>
@@ -160,10 +165,21 @@ export default function ChoosePlan() {
               </div>
             </div>
             <div className="trial__wrapper">
-              <button onClick={selectedPlan === "premium-plus" ? upgradeToPremiumPlus : upgradeToPremium} className="plan__button">
-                {selectedPlan === "premium-plus"
-                  ? "Start your 7-day free trial"
-                  : "Start your first month"}
+              <button
+                onClick={
+                  selectedPlan === "premium-plus"
+                    ? upgradeToPremiumPlus
+                    : upgradeToPremium
+                }
+                className="plan__button"
+              >
+                {isLoading ? (
+                  <AiOutlineLoading3Quarters className="spinner spinner-plan" />
+                ) : selectedPlan === "premium-plus" ? (
+                  "Start your 7-day free trial"
+                ) : (
+                  "Start your first month"
+                )}
               </button>
               <div className="plan__disclaimer">
                 {selectedPlan === "premium-plus"

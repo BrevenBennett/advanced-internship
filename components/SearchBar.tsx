@@ -1,7 +1,7 @@
 import { useDebounce } from "@uidotdev/usehooks";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import type { ChangeEvent, FormEvent } from "react";
+import type { ChangeEvent } from "react";
 import { GoClock } from "react-icons/go";
 import { IoIosSearch } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
@@ -9,7 +9,6 @@ import Skeleton from "./Skeleton";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaTimes } from "react-icons/fa";
 import Sidebar from "./Sidebar";
-import Link from "next/link";
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState<FormDataEntryValue | null>("");
@@ -127,80 +126,75 @@ export default function SearchBar() {
         </button>
         {searchTerm && isSearching && (
           <div className="search__books--wrapper">
-            {results.length > 0 ? (
-              isLoading ? (
-                <>
-                  <Skeleton
-                    className="search__book--link"
-                    width="100%"
-                    height="120px"
-                  />
-                  <br />
-                  <Skeleton
-                    className="search__book--link"
-                    width="100%"
-                    height="120px"
-                  />
-                  <br />
-                  <Skeleton
-                    className="search__book--link"
-                    width="100%"
-                    height="120px"
-                  />
-                  <br />
-                  <Skeleton
-                    className="search__book--link"
-                    width="100%"
-                    height="120px"
-                  />
-                  <br />
-                  <Skeleton
-                    className="search__book--link"
-                    width="100%"
-                    height="120px"
-                  />
-                </>
-              ) : (
-                results.map((result: any) => (
-                  <Link
-                    key={result.id}
-                    href={`/book/${result.id}`}
-                    className="search__book--link"
-                  >
-                    {audioRefs && (
-                      <audio
-                        src={result?.audioLink}
-                        ref={(audioRef) =>
-                          (audioRefs.current[result.id] = audioRef)
-                        }
-                        onLoadedMetadata={() => onLoadedMetaData(result.id)}
-                      />
-                    )}
-                    <figure className="search-book__image--wrapper">
-                      <img
-                        src={result.imageLink}
-                        alt=""
-                        className="book__image"
-                      />
-                    </figure>
-                    <div>
-                      <div className="search__book--title">{result.title}</div>
-                      <div className="search__book--author">
-                        {result.author}
-                      </div>
-                      <div className="recommended__books--details">
-                        <GoClock className="recommended__books--details-icon" />
-                        <div className="recommended__books--details-text">
-                          {formatTime(audioDurations[result.id] || 0)}
-                        </div>
+            {isLoading ? (
+              <>
+                <Skeleton
+                  className="search__book--link"
+                  width="100%"
+                  height="120px"
+                />
+                <br />
+                <Skeleton
+                  className="search__book--link"
+                  width="100%"
+                  height="120px"
+                />
+                <br />
+                <Skeleton
+                  className="search__book--link"
+                  width="100%"
+                  height="120px"
+                />
+                <br />
+                <Skeleton
+                  className="search__book--link"
+                  width="100%"
+                  height="120px"
+                />
+                <br />
+                <Skeleton
+                  className="search__book--link"
+                  width="100%"
+                  height="120px"
+                />
+              </>
+            ) : (
+              results.map((result: any) => (
+                <a
+                  key={result.id}
+                  href={`/book/${result.id}`}
+                  className="search__book--link"
+                >
+                  {audioRefs && (
+                    <audio
+                      src={result?.audioLink}
+                      ref={(audioRef) =>
+                        (audioRefs.current[result.id] = audioRef)
+                      }
+                      onLoadedMetadata={() => onLoadedMetaData(result.id)}
+                    />
+                  )}
+                  <figure className="search-book__image--wrapper">
+                    <img
+                      src={result.imageLink}
+                      alt=""
+                      className="book__image"
+                    />
+                  </figure>
+                  <div>
+                    <div className="search__book--title">{result.title}</div>
+                    <div className="search__book--author">{result.author}</div>
+                    <div className="recommended__books--details">
+                      <GoClock className="recommended__books--details-icon" />
+                      <div className="recommended__books--details-text">
+                        {formatTime(audioDurations[result.id] || 0)}
                       </div>
                     </div>
-                  </Link>
-                ))
-              )
-            ) : (
-              <div>No Books Found</div>
+                  </div>
+                </a>
+              ))
             )}
+            {(debouncedSearchTerm && isSearching && results.length === 0) && <div>No Books Found</div>}
           </div>
         )}
       </form>

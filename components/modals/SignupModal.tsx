@@ -18,7 +18,9 @@ import { useRouter } from "next/router";
 
 export default function SignupModal() {
   const isOpen = useSelector((state: RootState) => state.modal.signupModalOpen);
-  const subscriptionStatus = useSelector((state: RootState) => state.user.subscriptionStatus)
+  const subscriptionStatus = useSelector(
+    (state: RootState) => state.user.subscriptionStatus
+  );
   const dispatch = useDispatch();
 
   const router = useRouter();

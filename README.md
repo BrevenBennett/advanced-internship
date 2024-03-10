@@ -1,5 +1,7 @@
 # Summarist - Book Summary AI Application
 
+<img width="1440" alt="Screenshot 2024-03-10 at 2 20 43 PM" src="https://github.com/BrevenBennett/advanced-internship/assets/118828879/e6e35d0d-621f-4bb9-8c68-0f3b89e2c0df">
+
 ## Install Packages
 
 ```bash
